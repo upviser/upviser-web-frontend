@@ -143,10 +143,11 @@ export const Faq: React.FC<Props> = ({ content, index, style, services }) => {
         {
           content.info.faq?.length
             ? (
-              <div ref={faqRef} className={`${faqLoaded ? 'opacity-1' : 'opacity-0 translate-y-6'} transition-all duration-500 flex flex-col gap-6`}>
+              <div className={`${faqLoaded ? 'opacity-1' : 'opacity-0 translate-y-6'} transition-all duration-500 flex flex-col gap-6`}>
                 {content.info.faq?.map((faq, i) => (
                   <div
                     key={i}
+                    ref={i === 0 ? faqRef : ''}
                     className={`flex flex-col transition-all duration-500`}
                     style={{
                       padding: question === i ? "24px" : "24px 24px 12px",
