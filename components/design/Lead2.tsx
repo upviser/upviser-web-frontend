@@ -178,7 +178,7 @@ export const Lead2 = ({ content, forms, step, index, services, storeData, style 
           observer.unobserve(entry.target);
         }
       },
-      { threshold: 0.5 }
+      { threshold: 0.2 }
     );
 
     if (ref.current) {
