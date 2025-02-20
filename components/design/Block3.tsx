@@ -10,15 +10,63 @@ export const Block3 = ({ content, index, calls, forms, design, payment, style, s
 
   const [popup, setPopup] = useState({ view: 'hidden', opacity: 'opacity-0', mouse: false })
   const [cont, setCont] = useState('')
+  const [viewLogo, setViewLogo] = useState(false)
+  const [viewLogo2, setViewLogo2] = useState(false)
   const [titleLoaded, setTitleLoaded] = useState(false);
   const [descriptionLoaded, setDescriptionLoaded] = useState(false);
   const [imageLoaded, setImageLoaded] = useState(false);
   const [buttonLoaded, setButtonLoaded] = useState(false);
 
+  const refLogo = useRef(null)
+  const refLogo2 = useRef(null)
   const titleRef = useRef(null);
   const descriptionRef = useRef(null);
   const imageRef = useRef(null);
   const buttonRef = useRef(null);
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setViewLogo(true);
+          observer.unobserve(entry.target);
+        }
+      },
+      { threshold: 0.5 }
+    );
+
+    if (refLogo.current) {
+      observer.observe(refLogo.current);
+    }
+
+    return () => {
+      if (refLogo.current) {
+        observer.unobserve(refLogo.current);
+      }
+    };
+  }, []);
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setViewLogo2(true);
+          observer.unobserve(entry.target);
+        }
+      },
+      { threshold: 0.5 }
+    );
+
+    if (refLogo2.current) {
+      observer.observe(refLogo2.current);
+    }
+
+    return () => {
+      if (refLogo2.current) {
+        observer.unobserve(refLogo2.current);
+      }
+    };
+  }, []);
 
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -122,10 +170,10 @@ export const Block3 = ({ content, index, calls, forms, design, payment, style, s
       <div key={content.content} className={`py-10 md:py-20 w-full flex px-4`} style={{ background: `${content.info.typeBackground === 'Degradado' ? content.info.background : content.info.typeBackground === 'Color' ? content.info.background : ''}` }}>
         <div className="text-center m-auto max-w-[1280px] w-full flex flex-col gap-8">
           {
-            content.info.titleForm === 'Logo principal' && storeData.logo && storeData.logo !== ''
-              ? <Link href='/' target='_blank' className='w-fit m-auto'><Image src={storeData.logo} alt={`Logo ${storeData.name}`} width={320} height={150} className='w-44 m-auto lg:w-52' /></Link>
-              : content.info.titleForm === 'Logo blanco' && storeData.logoWhite && storeData.logoWhite !== ''
-                ? <Link href='/' target='_blank' className='w-fit m-auto'><Image src={storeData.logoWhite} alt={`Logo ${storeData.name}`} width={320} height={150} className='w-44 m-auto lg:w-52' /></Link>
+            content.info.titleForm === 'Logo principal' && storeData?.logo && storeData.logo !== ''
+              ? <Link ref={refLogo} href='/' target='_blank' className={`${viewLogo ? 'opacity-1' : 'opacity-0 translate-y-6'} transition-all duration-500 w-fit m-auto`}><Image src={storeData.logo} alt={`Logo ${storeData.name}`} width={320} height={150} className='w-44 m-auto lg:w-52' /></Link>
+              : content.info.titleForm === 'Logo blanco' && storeData?.logoWhite && storeData.logoWhite !== ''
+                ? <Link ref={refLogo2} href='/' target='_blank' className={`${viewLogo2 ? 'opacity-1' : 'opacity-0 translate-y-6'} transition-all duration-500 w-fit m-auto`}><Image src={storeData.logoWhite} alt={`Logo ${storeData.name}`} width={320} height={150} className='w-44 m-auto lg:w-52' /></Link>
                 : ''
           }
           <div className='flex gap-4 flex-col'>

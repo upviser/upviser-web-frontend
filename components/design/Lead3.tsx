@@ -219,13 +219,13 @@ export const Lead3: React.FC<Props> = ({ content, index, style, services, forms,
       { threshold: 0.2 }
     );
 
-    if (refSubtitle.current) {
-      observer.observe(refSubtitle.current);
+    if (ref.current) {
+      observer.observe(ref.current);
     }
 
     return () => {
-      if (refSubtitle.current) {
-        observer.unobserve(refSubtitle.current);
+      if (ref.current) {
+        observer.unobserve(ref.current);
       }
     };
   }, []);
