@@ -18,10 +18,87 @@ export const ContactPage = ({ info, index, style }: { info: IInfo, index: any, s
   })
   const [sending, setSending] = useState('Enviar')
   const [error, setError] = useState('')
-  const [view, setView] = useState(false)
-  const ref = useRef(null)
+  const [titleLoaded, setTitleLoaded] = useState(false);
+  const [descriptionLoaded, setDescriptionLoaded] = useState(false);
+  const [tableLoaded, setTableLoaded] = useState(false);
+
+  const titleRef = useRef(null);
+  const descriptionRef = useRef(null);
+  const tableRef = useRef(null);
 
   const pathname = usePathname()
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setTimeout(() => {
+            setTitleLoaded(true);
+          }, 100);
+          observer.unobserve(entry.target);
+        }
+      },
+      { threshold: 0.5 }
+    );
+
+    if (titleRef.current) {
+      observer.observe(titleRef.current);
+    }
+
+    return () => {
+      if (titleRef.current) {
+        observer.unobserve(titleRef.current);
+      }
+    };
+  }, []);
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setTimeout(() => {
+            setDescriptionLoaded(true);
+          }, 200);
+          observer.unobserve(entry.target);
+        }
+      },
+      { threshold: 0.5 }
+    );
+
+    if (descriptionRef.current) {
+      observer.observe(descriptionRef.current);
+    }
+
+    return () => {
+      if (descriptionRef.current) {
+        observer.unobserve(descriptionRef.current);
+      }
+    };
+  }, []);
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setTimeout(() => {
+            setTableLoaded(true);
+          }, 300);
+          observer.unobserve(entry.target);
+        }
+      },
+      { threshold: 0.5 }
+    );
+
+    if (tableRef.current) {
+      observer.observe(tableRef.current);
+    }
+
+    return () => {
+      if (tableRef.current) {
+        observer.unobserve(tableRef.current);
+      }
+    };
+  }, []);
 
   const inputChange = (e: any) => {
     setFormContact({ ...formContact, [e.target.name]: e.target.value })
@@ -73,40 +150,34 @@ export const ContactPage = ({ info, index, style }: { info: IInfo, index: any, s
     }
   }
 
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting) {
-          setView(true);
-          observer.unobserve(entry.target);
-        }
-      },
-      { threshold: 0.2 }
-    );
-
-    if (ref.current) {
-      observer.observe(ref.current);
-    }
-
-    return () => {
-      if (ref.current) {
-        observer.unobserve(ref.current);
-      }
-    };
-  }, []);
-
   return (
       <div className='flex px-4 py-10 md:py-20 w-full' style={{ background: `${info.typeBackground === 'Degradado' ? info.background : info.typeBackground === 'Color' ? info.background : ''}` }}>
         <div className='m-auto w-full max-w-[1280px] flex gap-8 flex-col xl:flex-row'>
           <div className='w-full m-auto flex flex-col gap-2 text-center xl:w-1/2 xl:text-left'>
             {
-              index === 0
-                ? <H1 text={info.title} color={info.textColor} />
-                : <H2 text={info.title} color={info.textColor} />
+              info.title && info.title !== ''
+                ? (
+                  <div ref={titleRef} className={`${titleLoaded ? 'opacity-1' : 'opacity-0 translate-y-6'} transition-all duration-500`}>
+                    {
+                      index === 0
+                        ? <H1 text={info.title} color={info.textColor} />
+                        : <H2 text={info.title} color={info.textColor} />
+                    }
+                  </div>
+                )
+                : ''
             }
-            <P text={info.description} color={info.textColor} />
+            {
+              info.description && info.description !== ''
+                ? (
+                  <div ref={descriptionRef} className={`${descriptionLoaded ? 'opacity-1' : 'opacity-0 translate-y-6'} transition-all duration-500`}>
+                    <P text={info.description} color={info.textColor} />
+                  </div>
+                )
+                : ''
+            }
           </div>
-          <div ref={ref} className={`${view ? 'opacity-1' : 'opacity-0 translate-y-6'} transition-all duration-500 w-full m-auto sm:w-[560px] xl:w-1/2`}>
+          <div ref={tableRef} className={`${tableLoaded ? 'opacity-1' : 'opacity-0 translate-y-6'} transition-all duration-500 w-full m-auto sm:w-[560px] xl:w-1/2`}>
             <div className={`flex flex-col gap-4 p-6 sm:p-8`} style={{ boxShadow: style?.design === 'Sombreado' ? `0px 3px 20px 3px ${style.borderColor}10` : '', borderRadius: style?.form === 'Redondeadas' ? `${style?.borderBlock}px` : '', border: style.design === 'Borde' ? `1px solid ${style.borderColor}` : '', color: info.textColor }}>
               {
                 error !== ''
