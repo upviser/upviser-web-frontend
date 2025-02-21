@@ -155,7 +155,8 @@ export const Faq: React.FC<Props> = ({ content, index, style, services }) => {
                       gap: question === i ? "16px" : "8px",
                       borderRadius: style.form === 'Redondeadas' ? `${style.borderBlock}px` : '',
                       border: style.design === 'Borde' ? `1px solid ${style.borderColor}` : '',
-                      color: content.info.textColor
+                      color: content.info.textColor,
+                      backgroundColor: content.info.image
                     }}
                   >
                     <div
