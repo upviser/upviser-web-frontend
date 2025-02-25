@@ -352,7 +352,7 @@ export const PopupPlans: React.FC<Props> = ({ popup, setPopup, plan, services, p
                             </div>
                           </div>
                         )
-                        : <div className='flex flex-col gap-6 pb-8 px-8 w-full'><Button style={style} config='w-full' loading={loading} action={async (e: any) => {
+                        : <div className='flex flex-col gap-6 pb-6 px-6 md:pb-8 md:px-8 w-full'><Button style={style} config='w-full' loading={loading} action={async (e: any) => {
                           if (!loading) {
                             setLoading(true)
                             setError('')
