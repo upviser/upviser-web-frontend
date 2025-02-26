@@ -7,6 +7,7 @@ export interface IService {
     steps: { _id?: string, step: string, slug?: string }[]
     typeService: string
     typePrice: string
+    typePay: string
     price?: string
     anualPrice?: string
     plans?: IPlans

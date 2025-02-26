@@ -9,6 +9,7 @@ import Image from 'next/image'
 import axios from 'axios'
 import Cookies from 'js-cookie'
 import { Button, Calendar, Input, LinkButton } from '../ui'
+import Script from 'next/script'
 
 interface Props {
     design: Design
@@ -20,11 +21,18 @@ interface Props {
     payment: IPayment
     services: IService[]
     style?: any
+    integrations: any
+}
+
+declare global {
+  interface Window {
+    gtag: (...args: any[]) => void;
+  }
 }
 
 declare const fbq: Function
 
-export const AllNavbar: React.FC<PropsWithChildren<Props>> = ({ children, design, storeData, funnels, politics, calls, forms, payment, services, style }) => {
+export const AllNavbar: React.FC<PropsWithChildren<Props>> = ({ children, design, storeData, funnels, politics, calls, forms, payment, services, style, integrations }) => {
 
   const [load, setLoad] = useState(false)
   const [popup, setPopup] = useState({ view: 'hidden', opacity: 'opacity-0', mouse: false })
@@ -49,7 +57,6 @@ export const AllNavbar: React.FC<PropsWithChildren<Props>> = ({ children, design
         setViewChat(true)
       }, 50);
     }, 200);
-    
   }, [])
 
   const pageView = async () => {
@@ -113,6 +120,42 @@ export const AllNavbar: React.FC<PropsWithChildren<Props>> = ({ children, design
 
   return (
     <>
+      <Script
+        strategy="afterInteractive"
+        src={`https://www.googletagmanager.com/gtag/js?id=${integrations?.googleAnalytics}`}
+      />
+      <Script
+        id="google-analytics"
+        strategy="afterInteractive"
+        dangerouslySetInnerHTML={{
+          __html: `
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
+            gtag('config', '${integrations?.googleAnalytics}', {
+              page_path: window.location.pathname,
+            });
+          `,
+        }}
+      />
+      <Script
+        id="pixel"
+        strategy="lazyOnload"
+        dangerouslySetInnerHTML={{
+          __html: `
+            !function(f,b,e,v,n,t,s)
+            {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+            n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+            if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+            n.queue=[];t=b.createElement(e);t.async=!0;
+            t.src=v;s=b.getElementsByTagName(e)[0];
+            s.parentNode.insertBefore(t,s)}(window, document,'script',
+            'https://connect.facebook.net/en_US/fbevents.js');
+            fbq('init', '${integrations?.apiPixelId}');
+            fbq('track', 'PageView')
+          `,
+        }}
+      />
       {
         design.popup?.active
           ? (

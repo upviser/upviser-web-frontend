@@ -39,7 +39,8 @@ export const Checkout: React.FC<Props> = ({ content, services, step, payment, st
   const [client, setClient] = useState<IClient>({ email: '' })
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState('')
-  const [initialization, setInitialization] = useState({ amount: Number(services?.find(servi => servi._id === content.service?.service)?.price ? services?.find(servi => servi._id === content.service?.service)?.price : services?.find(servi => servi._id === content.service?.service)?.plans?.plans.find(plan => plan._id === content.service?.plan)?.price ? services?.find(servi => servi._id === content.service?.service)?.plans?.plans.find(plan => plan._id === content.service?.plan)?.price : '') })
+  const [initialization, setInitialization] = useState({ amount: Number(services?.find(servi => servi._id === content.service?.service)?.typePay === 'El precio incluye el IVA' ? services?.find(servi => servi._id === content.service?.service)?.price ? services?.find(servi => servi._id === content.service?.service)?.price : services?.find(servi => servi._id === content.service?.service)?.plans?.plans.find(plan => plan._id === content.service?.plan)?.price ? services?.find(servi => servi._id === content.service?.service)?.plans?.plans.find(plan => plan._id === content.service?.plan)?.price : '' : Number(services?.find(servi => servi._id === content.service?.service)?.price ? services?.find(servi => servi._id === content.service?.service)?.price : services?.find(servi => servi._id === content.service?.service)?.plans?.plans.find(plan => plan._id === content.service?.plan)?.price ? services?.find(servi => servi._id === content.service?.service)?.plans?.plans.find(plan => plan._id === content.service?.plan)?.price : '') + Number(services?.find(servi => servi._id === content.service?.service)?.price ? services?.find(servi => servi._id === content.service?.service)?.price : services?.find(servi => servi._id === content.service?.service)?.plans?.plans.find(plan => plan._id === content.service?.plan)?.price ? services?.find(servi => servi._id === content.service?.service)?.plans?.plans.find(plan => plan._id === content.service?.plan)?.price : '') / 100 * 19) })
+  const [price, setPrice] = useState(Number(services?.find(servi => servi._id === content.service?.service)?.price ? services?.find(servi => servi._id === content.service?.service)?.price : services?.find(servi => servi._id === content.service?.service)?.plans?.plans.find(plan => plan._id === content.service?.plan)?.price ? services?.find(servi => servi._id === content.service?.service)?.plans?.plans.find(plan => plan._id === content.service?.plan)?.price : ''))
   const [idService, setIdService] = useState('')
   const [loadingPayment, setLoadingPayment] = useState(true)
   const [paymentCompleted, setPaymentCompleted] = useState(false)
@@ -80,8 +81,8 @@ export const Checkout: React.FC<Props> = ({ content, services, step, payment, st
       setClientData(response.data)
       if (email && serviceId) {
         const resp = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/pay-email/${email}-${serviceId}`)
-        setInitialization({ amount: Number(services?.find(servi => servi._id === content.service?.service)?.typePrice === '2 pagos' || services?.find(servi => servi._id === content.service?.service)?.typePrice === 'Precio variable con 2 pagos' ? resp.data.price / 2 : resp.data.price) })
-        initializationRef.current.amount = Number(services?.find(servi => servi._id === content.service?.service)?.typePrice === '2 pagos' || services?.find(servi => servi._id === content.service?.service)?.typePrice === 'Precio variable con 2 pagos' ? resp.data.price / 2 : resp.data.price)
+        setInitialization({ amount: Number(services?.find(servi => servi._id === content.service?.service)?.typePay === 'El precio incluye el IVA' ? services?.find(servi => servi._id === content.service?.service)?.typePrice === '2 pagos' || services?.find(servi => servi._id === content.service?.service)?.typePrice === 'Precio variable con 2 pagos' ? resp.data.price / 2 : resp.data.price : Number(services?.find(servi => servi._id === content.service?.service)?.typePrice === '2 pagos' || services?.find(servi => servi._id === content.service?.service)?.typePrice === 'Precio variable con 2 pagos' ? resp.data.price / 2 : resp.data.price) + (Number(services?.find(servi => servi._id === content.service?.service)?.typePrice === '2 pagos' || services?.find(servi => servi._id === content.service?.service)?.typePrice === 'Precio variable con 2 pagos' ? resp.data.price / 2 : resp.data.price) / 100 * 19)) })
+        initializationRef.current.amount = Number(services?.find(servi => servi._id === content.service?.service)?.typePay === 'El precio incluye el IVA' ? services?.find(servi => servi._id === content.service?.service)?.typePrice === '2 pagos' || services?.find(servi => servi._id === content.service?.service)?.typePrice === 'Precio variable con 2 pagos' ? resp.data.price / 2 : resp.data.price : Number(services?.find(servi => servi._id === content.service?.service)?.typePrice === '2 pagos' || services?.find(servi => servi._id === content.service?.service)?.typePrice === 'Precio variable con 2 pagos' ? resp.data.price / 2 : resp.data.price) + (Number(services?.find(servi => servi._id === content.service?.service)?.typePrice === '2 pagos' || services?.find(servi => servi._id === content.service?.service)?.typePrice === 'Precio variable con 2 pagos' ? resp.data.price / 2 : resp.data.price) / 100 * 19))
         setClient({ ...client, tags: services?.find(servi => servi._id === content.service?.service)?.tags?.length ? [...(services.find(servi => servi._id === content.service?.service)?.tags || [])] : [], services: [{ service: content.service?.service, plan: content.service?.plan, step: services?.find(service => service.steps.find(step => `/${step.slug}` === pathname)) ? services?.find(service => service.steps.find(step => `/${step.slug}` === pathname))?.steps.find(step => `/${step.slug}` === pathname)?._id : services?.find(servi => servi._id === content.service?.service)?.steps[0]._id, price: resp.data.price ? resp.data.price : services?.find(servi => servi._id === content.service?.service)?.price ? services?.find(servi => servi._id === content.service?.service)?.price : services?.find(servi => servi._id === content.service?.service)?.plans?.plans.find(plan => plan._id === content.service?.plan)?.price ? services?.find(servi => servi._id === content.service?.service)?.plans?.plans.find(plan => plan._id === content.service?.plan)?.price : '' }], funnels: [{ funnel: respo.data._id, step: stepFind._id }] })
         clientRef.current = { ...client, tags: services?.find(servi => servi._id === content.service?.service)?.tags?.length ? [...(services.find(servi => servi._id === content.service?.service)?.tags || [])] : [], services: [{ service: content.service?.service, plan: content.service?.plan, step: services?.find(service => service.steps.find(step => `/${step.slug}` === pathname)) ? services?.find(service => service.steps.find(step => `/${step.slug}` === pathname))?.steps.find(step => `/${step.slug}` === pathname)?._id : services?.find(servi => servi._id === content.service?.service)?.steps[0]._id, price: resp.data.price ? resp.data.price : services?.find(servi => servi._id === content.service?.service)?.price ? services?.find(servi => servi._id === content.service?.service)?.price : services?.find(servi => servi._id === content.service?.service)?.plans?.plans.find(plan => plan._id === content.service?.plan)?.price ? services?.find(servi => servi._id === content.service?.service)?.plans?.plans.find(plan => plan._id === content.service?.plan)?.price : '' }], funnels: [{ funnel: respo.data._id, step: stepFind._id }] }
       } else {
@@ -111,8 +112,8 @@ export const Checkout: React.FC<Props> = ({ content, services, step, payment, st
       setClientData(response?.data)
       if (email && serviceId) {
         const resp = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/pay-email/${email}-${serviceId}`)
-        setInitialization({ amount: Number(services?.find(servi => servi._id === content.service?.service)?.typePrice === '2 pagos' || services?.find(servi => servi._id === content.service?.service)?.typePrice === 'Precio variable con 2 pagos' ? resp.data.price / 2 : resp.data.price) })
-        initializationRef.current.amount = Number(services?.find(servi => servi._id === content.service?.service)?.typePrice === '2 pagos' || services?.find(servi => servi._id === content.service?.service)?.typePrice === 'Precio variable con 2 pagos' ? resp.data.price / 2 : resp.data.price)
+        setInitialization({ amount: Number(services?.find(servi => servi._id === content.service?.service)?.typePay === 'El precio incluye el IVA' ? services?.find(servi => servi._id === content.service?.service)?.typePrice === '2 pagos' || services?.find(servi => servi._id === content.service?.service)?.typePrice === 'Precio variable con 2 pagos' ? resp.data.price / 2 : resp.data.price : Number(services?.find(servi => servi._id === content.service?.service)?.typePrice === '2 pagos' || services?.find(servi => servi._id === content.service?.service)?.typePrice === 'Precio variable con 2 pagos' ? resp.data.price / 2 : resp.data.price) + (Number(services?.find(servi => servi._id === content.service?.service)?.typePrice === '2 pagos' || services?.find(servi => servi._id === content.service?.service)?.typePrice === 'Precio variable con 2 pagos' ? resp.data.price / 2 : resp.data.price) / 100 * 19)) })
+        initializationRef.current.amount = Number(services?.find(servi => servi._id === content.service?.service)?.typePay === 'El precio incluye el IVA' ? services?.find(servi => servi._id === content.service?.service)?.typePrice === '2 pagos' || services?.find(servi => servi._id === content.service?.service)?.typePrice === 'Precio variable con 2 pagos' ? resp.data.price / 2 : resp.data.price : Number(services?.find(servi => servi._id === content.service?.service)?.typePrice === '2 pagos' || services?.find(servi => servi._id === content.service?.service)?.typePrice === 'Precio variable con 2 pagos' ? resp.data.price / 2 : resp.data.price) + (Number(services?.find(servi => servi._id === content.service?.service)?.typePrice === '2 pagos' || services?.find(servi => servi._id === content.service?.service)?.typePrice === 'Precio variable con 2 pagos' ? resp.data.price / 2 : resp.data.price) / 100 * 19))
         setClient({ ...client, tags: services?.find(servi => servi._id === content.service?.service)?.tags?.length ? [...(services.find(servi => servi._id === content.service?.service)?.tags || [])] : [], services: [{ service: content.service?.service, plan: content.service?.plan, step: services?.find(service => service.steps.find(step => `/${step.slug}` === pathname)) ? services?.find(service => service.steps.find(step => `/${step.slug}` === pathname))?.steps.find(step => `/${step.slug}` === pathname)?._id : services?.find(servi => servi._id === content.service?.service)?.steps[0]._id, price: resp.data.price ? resp.data.price : services?.find(servi => servi._id === content.service?.service)?.price ? services?.find(servi => servi._id === content.service?.service)?.price : services?.find(servi => servi._id === content.service?.service)?.plans?.plans.find(plan => plan._id === content.service?.plan)?.price ? services?.find(servi => servi._id === content.service?.service)?.plans?.plans.find(plan => plan._id === content.service?.plan)?.price : '' }] })
         clientRef.current = { ...client, tags: services?.find(servi => servi._id === content.service?.service)?.tags?.length ? [...(services.find(servi => servi._id === content.service?.service)?.tags || [])] : [], services: [{ service: content.service?.service, plan: content.service?.plan, step: services?.find(service => service.steps.find(step => `/${step.slug}` === pathname)) ? services?.find(service => service.steps.find(step => `/${step.slug}` === pathname))?.steps.find(step => `/${step.slug}` === pathname)?._id : services?.find(servi => servi._id === content.service?.service)?.steps[0]._id, price: resp.data.price ? resp.data.price : services?.find(servi => servi._id === content.service?.service)?.price ? services?.find(servi => servi._id === content.service?.service)?.price : services?.find(servi => servi._id === content.service?.service)?.plans?.plans.find(plan => plan._id === content.service?.plan)?.price ? services?.find(servi => servi._id === content.service?.service)?.plans?.plans.find(plan => plan._id === content.service?.plan)?.price : '' }] }
       } else {
@@ -359,23 +360,97 @@ export const Checkout: React.FC<Props> = ({ content, services, step, payment, st
                     </div>
                     <div className='flex flex-col gap-4'>
                       <H3 text='Pago' config='font-medium' color={content.info.textColor} />
-                      <div className='flex flex-col rounded-xl' style={{ border: `1px solid ${style.borderColor}` }}>
-                        <div className='w-full'>
-                          <button className='p-6 border-b flex gap-4 w-full' style={{ borderBottom: `1px solid ${style.borderColor}` }} onClick={async () => {
-                            setPay('WebPay Plus')
-                            const pago = {
-                              amount: initializationRef.current.amount,
-                              returnUrl: `${process.env.NEXT_PUBLIC_WEB_URL}/procesando-pago`
-                            }
-                            const response = await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/pay/create`, pago)
-                            setToken(response.data.token)
-                            setUrl(response.data.url)
-                          }}>
-                            <input type='radio' className='my-auto' checked={pay === 'WebPay Plus'} />
-                            <p>WebPay Plus</p>
-                          </button>
-                          {
-                            pay === 'WebPay Plus'
+                      {
+                        payment?.mercadoPago.accessToken !== '' && payment?.mercadoPago.publicKey !== '' && payment?.transbank.apiKey !== '' && payment?.transbank.commerceCode !== ''
+                          ? (
+                            <div className='flex flex-col rounded-xl bg-white' style={{ border: `1px solid ${style.borderColor}` }}>
+                              <div className='w-full'>
+                                <button className='p-6 border-b flex gap-4 w-full' style={{ borderBottom: `1px solid ${style.borderColor}` }} onClick={async () => {
+                                  setPay('WebPay Plus')
+                                  const pago = {
+                                    amount: initializationRef.current.amount,
+                                    returnUrl: `${process.env.NEXT_PUBLIC_WEB_URL}/procesando-pago`
+                                  }
+                                  const response = await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/pay/create`, pago)
+                                  setToken(response.data.token)
+                                  setUrl(response.data.url)
+                                }}>
+                                  <input type='radio' className='my-auto' checked={pay === 'WebPay Plus'} />
+                                  <p>WebPay Plus</p>
+                                </button>
+                                {
+                                  pay === 'WebPay Plus'
+                                    ? (
+                                      <form action={url} method="POST" id='formTransbank' className='p-4 border-b'>
+                                        <input type="hidden" name="token_ws" value={token} />
+                                        <Button style={style} action={async (e: any) => {
+                                          e.preventDefault()
+                                          if (!transbankLoading) {
+                                            setTransbankLoading(true)
+                                            setError('')
+                                            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
+                                            if (clientRef.current.email !== '' && clientRef.current.firstName !== '' && clientRef.current.lastName !== '' && clientRef.current.phone !== '') {
+                                              if (emailRegex.test(clientRef.current.email)) {
+                                                let currentClient = clientRef.current
+                                                const res = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/client-email/${currentClient.email}`)
+                                                if (res.data.email) {
+                                                  currentClient.services![0].payStatus = res.data.services.find((service: any) => service.service === currentClient.services![0].service)?.payStatus === 'Pago realizado' ? 'Segundo pago iniciado' : 'Pago iniciado'
+                                                  await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/clients`, currentClient)
+                                                } else {
+                                                  await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/clients`, { ...currentClient, services: [{ ...currentClient.services![0], payStatus: 'Pago iniciado' }] })
+                                                }
+                                                const service = services?.find(service => service._id === content.service?.service)
+                                                const price = Number(initializationRef.current.amount)
+                                                const newEventId = new Date().getTime().toString()
+                                                const response = await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/pay`, { firstName: clientRef.current.firstName, lastName: clientRef.current.lastName, email: clientRef.current.email, phone: clientRef.current.phone, service: service?._id, stepService: services?.find(service => service.steps.find(step => `/${step.slug}` === pathname))?.steps.find(step => `/${step.slug}` === pathname)?._id, typeService: service?.typeService, typePrice: service?.typePrice, plan: content.service?.plan, price: price, state: 'Pago iniciado', fbp: Cookies.get('_fbp'), fbc: Cookies.get('_fbc'), pathname: pathname, eventId: newEventId, funnel: clientRef.current.funnels?.length ? clientRef.current.funnels[0].funnel : undefined, step: clientRef.current.funnels?.length ? clientRef.current.funnels[0].step : undefined, method: 'WebPay Plus' })
+                                                localStorage.setItem('pay', JSON.stringify(response.data))
+                                                const form = document.getElementById('formTransbank') as HTMLFormElement
+                                                if (form) {
+                                                  form.submit()
+                                                }
+                                              }
+                                            }
+                                          }
+                                        }} loading={transbankLoading} config='w-[350px]'>Pagar con WebPay Plus</Button>
+                                      </form>
+                                    )
+                                    : ''
+                                }
+                              </div>
+                              <div className='w-full'>
+                                <button className='p-6 flex gap-4 w-full' onClick={() => setPay('MercadoPago')}>
+                                  <input type='radio' className='my-auto' checked={pay === 'MercadoPago'} />
+                                  <p>mercadoPago</p>
+                                </button>
+                                {
+                                  pay === 'MercadoPago'
+                                    ? (
+                                      <>
+                                        {cardPaymentMemo}
+                                        {
+                                          error !== ''
+                                            ? <p className='px-2 py-1 bg-red-500 text-white w-fit'>{error}</p>
+                                            : ''
+                                        }
+                                      </>
+                                    )
+                                    : ''
+                                }
+                              </div>
+                            </div>
+                          )
+                          : payment.mercadoPago.accessToken !== '' && payment.mercadoPago.publicKey !== ''
+                            ? (
+                              <>
+                                {cardPaymentMemo}
+                                {
+                                  error !== ''
+                                    ? <p className='px-2 py-1 bg-red-500 text-white w-fit'>{error}</p>
+                                    : ''
+                                }
+                              </>
+                            )
+                            : payment.transbank.apiKey !== '' && payment.transbank.commerceCode !== ''
                               ? (
                                 <form action={url} method="POST" id='formTransbank' className='p-4 border-b'>
                                   <input type="hidden" name="token_ws" value={token} />
@@ -411,47 +486,94 @@ export const Checkout: React.FC<Props> = ({ content, services, step, payment, st
                                 </form>
                               )
                               : ''
-                          }
-                        </div>
-                        <div className='w-full'>
-                          <button className='p-6 flex gap-4 w-full' onClick={() => setPay('MercadoPago')}>
-                            <input type='radio' className='my-auto' checked={pay === 'MercadoPago'} />
-                            <p>mercadoPago</p>
-                          </button>
-                          {
-                            pay === 'MercadoPago'
-                              ? (
-                                <>
-                                  {cardPaymentMemo}
-                                  {
-                                    error !== ''
-                                      ? <p className='px-2 py-1 bg-red-500 text-white w-fit'>{error}</p>
-                                      : ''
-                                  }
-                                </>
-                              )
-                              : ''
-                          }
-                        </div>
-                      </div>
+                      }
+
                     </div>
                   </div>
-                  <div ref={refInformation} className={`${viewInformation ? 'opacity-1' : 'opacity-0 translate-y-6'} transition-all duration-500 flex flex-col gap-4 sticky top-20 h-fit w-full p-6 md:p-8 md:w-2/5`} style={{ boxShadow: style.design === 'Sombreado' ? `0px 3px 20px 3px ${style.borderColor}10` : '', borderRadius: style.form === 'Redondeadas' ? `${style.borderBlock}px` : '', border: style.design === 'Borde' ? `1px solid ${style.borderColor}` : '', color: content.info.textColor }}>
+                  <div ref={refInformation} className={`${viewInformation ? 'opacity-1' : 'opacity-0 translate-y-6'} transition-all duration-500 flex flex-col gap-4 sticky top-20 h-fit w-full p-6 md:p-8 md:w-2/5`} style={{ boxShadow: style.design === 'Sombreado' ? `0px 3px 20px 3px ${style.borderColor}10` : '', borderRadius: style.form === 'Redondeadas' ? `${style.borderBlock}px` : '', border: style.design === 'Borde' ? `1px solid ${style.borderColor}` : '', color: content.info.textColor, backgroundColor: content.info.image }}>
                     {
                       content.service && content.service.service !== ''
                         ? (
                           <>
                             <H4 text={services?.find(servi => servi._id === content.service?.service)?.name} config='font-medium' />
                             <p>Tipo de pago: {services?.find(servi => servi._id === content.service?.service)?.typePrice}</p>
+                            <div className='border-t w-full' />
                             {
-                              services?.find(servi => servi._id === content.service?.service)?.plans?.plans.find(plan => plan._id === clientData?.services?.find(service => service.service === content.service?.service)?.plan)?.name
-                                ? <p>{services?.find(servi => servi._id === content.service?.service)?.plans?.plans.find(plan => plan._id === clientData?.services?.find(service => service.service === content.service?.service)?.plan)?.name}</p>
-                                : ''
-                            }
-                            {
-                              initialization.amount !== null && initialization.amount !== 0
-                                ? <p className='text-xl font-medium'>${NumberFormat(Number(initialization.amount))}</p>
-                                : ''
+                              services?.find(servi => servi._id === content.service?.service)?.typePay === 'El precio incluye el IVA'
+                                ? services.find(servi => servi._id === content.service?.service)?.typeService === 'Servicio unico' && (services.find(servi => servi._id === content.service?.service)?.typePrice === 'Facturación mensual' || services.find(servi => servi._id === content.service?.service)?.typePrice === 'Pago unico')
+                                  ? (
+                                    <>
+                                      <div className='flex gap-2 justify-between'>
+                                        <p>Subtotal:</p>
+                                        <p>${NumberFormat(Number(services.find(servi => servi._id === content.service?.service)?.price) / 100 * 96.39)}</p>
+                                      </div>
+                                      <div className='flex gap-2 justify-between'>
+                                        <p>IVA:</p>
+                                        <p>${NumberFormat(Number(services.find(servi => servi._id === content.service?.service)?.price) / 100 * 22.61)}</p>
+                                      </div>
+                                      <div className='border-t w-full' />
+                                      <div className='flex gap-2 justify-between'>
+                                        <p className='font-medium'>Total:</p>
+                                        <p className='font-medium'>${NumberFormat(Number(services.find(servi => servi._id === content.service?.service)?.price))}</p>
+                                      </div>
+                                    </>
+                                  )
+                                  : services.find(servi => servi._id === content.service?.service)?.plans?.plans.find(plan => plan.name === content.service?.plan)
+                                    ? (
+                                      <>
+                                        <div className='flex gap-2 justify-between'>
+                                          <p>Subtotal:</p>
+                                          <p>${NumberFormat(Number(services.find(servi => servi._id === content.service?.service)?.plans?.plans.find(plan => plan.name === content.service?.plan)?.price) / 100 * 96.39)}</p>
+                                        </div>
+                                        <div className='flex gap-2 justify-between'>
+                                          <p>IVA:</p>
+                                          <p>${NumberFormat(Number(services.find(servi => servi._id === content.service?.service)?.plans?.plans.find(plan => plan.name === content.service?.plan)?.price) / 100 * 22.61)}</p>
+                                        </div>
+                                        <div className='border-t w-full' />
+                                        <div className='flex gap-2 justify-between'>
+                                          <p className='font-medium'>Total:</p>
+                                          <p className='font-medium'>${NumberFormat(Number(services.find(servi => servi._id === content.service?.service)?.plans?.plans.find(plan => plan.name === content.service?.plan)?.price))}</p>
+                                        </div>
+                                      </>
+                                    )
+                                    : ''
+                                : services?.find(servi => servi._id === content.service?.service)?.typeService === 'Servicio unico' && (services.find(servi => servi._id === content.service?.service)?.typePrice === 'Facturación mensual' || services.find(servi => servi._id === content.service?.service)?.typePrice === 'Pago unico')
+                                  ? (
+                                    <>
+                                      <div className='flex gap-2 justify-between'>
+                                        <p>Subtotal:</p>
+                                        <p>${NumberFormat(Number(services?.find(servi => servi._id === content.service?.service)?.price))}</p>
+                                      </div>
+                                      <div className='flex gap-2 justify-between'>
+                                        <p>IVA:</p>
+                                        <p>${NumberFormat(Number(services?.find(servi => servi._id === content.service?.service)?.price) / 100 * 19)}</p>
+                                      </div>
+                                      <div className='border-t w-full' />
+                                      <div className='flex gap-2 justify-between'>
+                                        <p className='font-medium'>Total:</p>
+                                        <p className='font-medium'>${NumberFormat(Number(services?.find(servi => servi._id === content.service?.service)?.price) + Number(services?.find(servi => servi._id === content.service?.service)?.price) / 100 * 19)}</p>
+                                      </div>
+                                    </>
+                                  )
+                                  : services?.find(servi => servi._id === content.service?.service)?.plans?.plans.find(plan => plan.name === content.service?.plan)
+                                    ? (
+                                      <>
+                                        <div className='flex gap-2 justify-between'>
+                                          <p>Subtotal:</p>
+                                          <p>${NumberFormat(Number(services?.find(servi => servi._id === content.service?.service)?.plans?.plans.find(plan => plan.name === content.service?.plan)?.price))}</p>
+                                        </div>
+                                        <div className='flex gap-2 justify-between'>
+                                          <p>IVA:</p>
+                                          <p>${NumberFormat(Number(services?.find(servi => servi._id === content.service?.service)?.plans?.plans.find(plan => plan.name === content.service?.plan)?.price) / 100 * 19)}</p>
+                                        </div>
+                                        <div className='border-t w-full' />
+                                        <div className='flex gap-2 justify-between'>
+                                          <p className='font-medium'>Total:</p>
+                                          <p className='font-medium'>${NumberFormat(Number(services?.find(servi => servi._id === content.service?.service)?.plans?.plans.find(plan => plan.name === content.service?.plan)?.price) + Number(services?.find(servi => servi._id === content.service?.service)?.plans?.plans.find(plan => plan.name === content.service?.plan)?.price) / 100 * 19)}</p>
+                                        </div>
+                                      </>
+                                    )
+                                    : ''
                             }
                           </>
                         )
