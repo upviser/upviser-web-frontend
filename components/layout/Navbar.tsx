@@ -51,7 +51,7 @@ export const Navbar: React.FC<PropsWithChildren<Props>> = ({ children, design, s
           : ''
       }
       <div style={{ top: '-0.5px' }} className={`${view ? 'opacity-1' : 'opacity-0 -translate-y-16'} transition-all duration-500 sticky flex w-full z-40 flex-col`}>
-        <div className={`z-40 m-auto w-full absolute flex justify-between px-2 sm:py-0`} style={{ boxShadow: style.design === 'Sombreado' ? `0px 0px 10px 0px ${style.borderColor}15` : '', backgroundColor: design.header?.bgColor, color: design.header?.textColor, borderBottom: style.design === 'Borde' ? subPages !== -1 ? '' : `1px solid ${style.borderColor}` : '' }}>
+        <div className={`z-40 m-auto w-full absolute flex justify-between px-2 sm:py-0`} style={{ boxShadow: style.design === 'Sombreado' ? `0px 0px 10px 0px ${style.borderColor}15` : '', backgroundColor: design.header?.bgColor && design.header?.bgColor !== '' ? design.header.bgColor : '#ffffff', color: design.header?.textColor && design.header?.textColor !== '' ? design.header?.textColor : '#111111', borderBottom: style.design === 'Borde' ? subPages !== -1 ? '' : `1px solid ${style.borderColor}` : '' }}>
           <div className='m-auto w-[1280px] flex justify-between py-1 sm:py-0'>
           <div className='hidden gap-2 sm:flex'>
             {

@@ -1,6 +1,6 @@
 "use client"
 import React, { useEffect, useMemo, useRef, useState } from 'react'
-import { Button, Input, Spinner } from '.'
+import { Button, Input, Select, Spinner } from '.'
 import axios from 'axios'
 import { ICall, IClient, IPayment, IService } from '@/interfaces'
 import { usePathname, useRouter } from 'next/navigation'
@@ -201,7 +201,7 @@ export const Calendar: React.FC<CalendarProps> = ({ newClient, setNewClient, tag
         const value = label.data === 'phone' ? newClient[label.data] : newClient.data?.find(dat => dat.name === label.data)?.value || newClient[label.data]
         if (label.data && (!value || value.trim() === '')) {
           valid = false;
-          errorMessage = `Por favor, completa el campo ${label.text || label.name}.`;
+          errorMessage = `Por favor, completa el campo ${label.text}.`;
         }
       })
       if (newClient.email && !emailRegex.test(newClient.email)) {
@@ -286,7 +286,7 @@ export const Calendar: React.FC<CalendarProps> = ({ newClient, setNewClient, tag
         const value = label.data === 'phone' ? newClient[label.data] : newClient.data?.find(dat => dat.name === label.data)?.value || newClient[label.data]
         if (label.data && (!value || value.trim() === '')) {
           valid = false;
-          errorMessage = `Por favor, completa el campo ${label.text || label.name}.`;
+          errorMessage = `Por favor, completa el campo ${label.text}.`;
         }
       })
       if (newClient.email && !emailRegex.test(newClient.email)) {
@@ -398,40 +398,72 @@ export const Calendar: React.FC<CalendarProps> = ({ newClient, setNewClient, tag
                   {
                     call.labels?.map(label => (
                       <div key={label._id} className="flex flex-col gap-2">
-                        <p>{label.text !== '' ? label.text : label.name}</p>
-                        <div className='flex gap-2'>
-                          {
-                            label.data === 'phone'
-                              ? <p className='my-auto'>+56</p>
-                              : ''
-                          }
-                          <Input
-                            style={style}
-                            placeholder={label.name}
-                            value={newClient.data?.find(dat => dat.name === label.name)?.value || newClient[label.data]}
-                            inputChange={(e: any) => {
-                              if (label.data === 'firstName' || label.data === 'lastName' || label.data === 'email' || label.data === 'phone') {
-                                setNewClient({ ...newClient, [label.data]: e.target.value })
-                                clientRef.current = { ...newClient, [label.data]: e.target.value }
-                              } else if (Array.isArray(newClient.data)) {
-                                const oldData = [...newClient.data];
-                                const existingData = oldData.find(dat => dat.name === label.data);
+                        <p>{label.text}</p>
+                        {
+                          label.type === 'Selector'
+                            ? (
+                              <Select selectChange={(e: any) => {
+                                if (label.data === 'firstName' || label.data === 'lastName' || label.data === 'email' || label.data === 'phone') {
+                                  setNewClient({ ...newClient, [label.data]: e.target.value })
+                                  clientRef.current = { ...newClient, [label.data]: e.target.value }
+                                } else if (Array.isArray(newClient.data)) {
+                                  const oldData = [...newClient.data];
+                                  const existingData = oldData.find(dat => dat.name === label.data);
 
-                                if (existingData) {
-                                  existingData.value = e.target.value;
+                                  if (existingData) {
+                                    existingData.value = e.target.value;
+                                  } else {
+                                    oldData.push({ name: label.data, value: e.target.value });
+                                  }
+
+                                  setNewClient({ ...newClient, data: oldData });
+                                  clientRef.current = { ...newClient, data: oldData }
                                 } else {
-                                  oldData.push({ name: label.data, value: e.target.value });
+                                  setNewClient({ ...newClient, data: [{ name: label.data, value: e.target.value }] });
+                                  clientRef.current = { ...newClient, data: [{ name: label.data, value: e.target.value }] }
                                 }
+                              }}>
+                                {
+                                  label.datas?.map(data => <option key={data}>{data}</option>)
+                                }
+                              </Select>
+                            )
+                            : (
+                              <div className='flex gap-2'>
+                                {
+                                  label.data === 'phone'
+                                    ? <p className='my-auto'>+56</p>
+                                    : ''
+                                }
+                                <Input
+                                  style={style}
+                                  placeholder={label.text}
+                                  value={newClient.data?.find(dat => dat.name === label.text)?.value || newClient[label.data]}
+                                  inputChange={(e: any) => {
+                                    if (label.data === 'firstName' || label.data === 'lastName' || label.data === 'email' || label.data === 'phone') {
+                                      setNewClient({ ...newClient, [label.data]: e.target.value })
+                                      clientRef.current = { ...newClient, [label.data]: e.target.value }
+                                    } else if (Array.isArray(newClient.data)) {
+                                      const oldData = [...newClient.data];
+                                      const existingData = oldData.find(dat => dat.name === label.data);
 
-                                setNewClient({ ...newClient, data: oldData });
-                                clientRef.current = { ...newClient, data: oldData }
-                              } else {
-                                setNewClient({ ...newClient, data: [{ name: label.data, value: e.target.value }] });
-                                clientRef.current = { ...newClient, data: [{ name: label.data, value: e.target.value }] }
-                              }
-                            }}
-                          />
-                        </div>
+                                      if (existingData) {
+                                        existingData.value = e.target.value;
+                                      } else {
+                                        oldData.push({ name: label.data, value: e.target.value });
+                                      }
+
+                                      setNewClient({ ...newClient, data: oldData });
+                                      clientRef.current = { ...newClient, data: oldData }
+                                    } else {
+                                      setNewClient({ ...newClient, data: [{ name: label.data, value: e.target.value }] });
+                                      clientRef.current = { ...newClient, data: [{ name: label.data, value: e.target.value }] }
+                                    }
+                                  }}
+                                />
+                              </div>
+                            )
+                        }
                       </div>
                     ))
                   }

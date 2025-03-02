@@ -13,19 +13,29 @@ const nextConfig = {
         hostname: 'imagenes-sitio-web-upvisor.b-cdn.net',
         port: '',
         pathname: '/**'
-      },  {
+      }, {
         protocol: 'https',
         hostname: 'imagenes-upvisor-web.b-cdn.net',
         port: '',
         pathname: '/**'
-      },  {
+      }, {
         protocol: 'https',
         hostname: 'cdn-web-upvisor.b-cdn.net',
         port: '',
         pathname: '/**'
-      },  {
+      }, {
         protocol: 'https',
         hostname: 'upvisor-site-cdn.b-cdn.net',
+        port: '',
+        pathname: '/**'
+      }, {
+        protocol: 'https',
+        hostname: 'upvisor-web-cdn.b-cdn.net',
+        port: '',
+        pathname: '/**'
+      }, {
+        protocol: 'https',
+        hostname: 'saludencasa-site-cdn.b-cdn.net',
         port: '',
         pathname: '/**'
       }
