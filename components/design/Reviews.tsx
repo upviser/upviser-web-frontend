@@ -42,9 +42,7 @@ export const Reviews: React.FC<Props> = ({ content, index, style }) => {
     const observer = new IntersectionObserver(
       ([entry]) => {
         if (entry.isIntersecting) {
-          setTimeout(() => {
-            setTitleLoaded(true);
-          }, 100);
+          setTitleLoaded(true);
           observer.unobserve(entry.target);
         }
       },
@@ -68,7 +66,7 @@ export const Reviews: React.FC<Props> = ({ content, index, style }) => {
         if (entry.isIntersecting) {
           setTimeout(() => {
             setDescriptionLoaded(true);
-          }, 200);
+          }, 100);
           observer.unobserve(entry.target);
         }
       },
@@ -92,7 +90,7 @@ export const Reviews: React.FC<Props> = ({ content, index, style }) => {
         if (entry.isIntersecting) {
           setTimeout(() => {
             setBlock1Loaded(true);
-          }, 300);
+          }, 200);
           observer.unobserve(entry.target);
         }
       },
@@ -116,7 +114,7 @@ export const Reviews: React.FC<Props> = ({ content, index, style }) => {
         if (entry.isIntersecting) {
           setTimeout(() => {
             setBlock2Loaded(true);
-          }, 400);
+          }, 250);
           observer.unobserve(entry.target);
         }
       },
@@ -140,7 +138,7 @@ export const Reviews: React.FC<Props> = ({ content, index, style }) => {
         if (entry.isIntersecting) {
           setTimeout(() => {
             setBlock3Loaded(true);
-          }, 500);
+          }, 300);
           observer.unobserve(entry.target);
         }
       },
@@ -164,7 +162,7 @@ export const Reviews: React.FC<Props> = ({ content, index, style }) => {
         if (entry.isIntersecting) {
           setTimeout(() => {
             setBlock4Loaded(true);
-          }, 600);
+          }, 350);
           observer.unobserve(entry.target);
         }
       },
@@ -188,7 +186,7 @@ export const Reviews: React.FC<Props> = ({ content, index, style }) => {
         if (entry.isIntersecting) {
           setTimeout(() => {
             setBlock5Loaded(true);
-          }, 700);
+          }, 400);
           observer.unobserve(entry.target);
         }
       },
@@ -212,7 +210,7 @@ export const Reviews: React.FC<Props> = ({ content, index, style }) => {
         if (entry.isIntersecting) {
           setTimeout(() => {
             setBlock6Loaded(true);
-          }, 700);
+          }, 450);
           observer.unobserve(entry.target);
         }
       },
@@ -236,7 +234,7 @@ export const Reviews: React.FC<Props> = ({ content, index, style }) => {
         if (entry.isIntersecting) {
           setTimeout(() => {
             setBlock7Loaded(true);
-          }, 700);
+          }, 500);
           observer.unobserve(entry.target);
         }
       },
@@ -260,7 +258,7 @@ export const Reviews: React.FC<Props> = ({ content, index, style }) => {
         if (entry.isIntersecting) {
           setTimeout(() => {
             setBlock8Loaded(true);
-          }, 700);
+          }, 550);
           observer.unobserve(entry.target);
         }
       },
@@ -284,7 +282,7 @@ export const Reviews: React.FC<Props> = ({ content, index, style }) => {
         if (entry.isIntersecting) {
           setTimeout(() => {
             setBlock9Loaded(true);
-          }, 700);
+          }, 600);
           observer.unobserve(entry.target);
         }
       },
@@ -308,7 +306,7 @@ export const Reviews: React.FC<Props> = ({ content, index, style }) => {
         if (entry.isIntersecting) {
           setTimeout(() => {
             setBlock10Loaded(true);
-          }, 700);
+          }, 650);
           observer.unobserve(entry.target);
         }
       },

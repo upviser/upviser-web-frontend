@@ -424,7 +424,7 @@ export const Calendar: React.FC<CalendarProps> = ({ newClient, setNewClient, tag
                                   setNewClient({ ...newClient, data: [{ name: label.data, value: e.target.value }] });
                                   clientRef.current = { ...newClient, data: [{ name: label.data, value: e.target.value }] }
                                 }
-                              }}>
+                              }} style={style}>
                                 {
                                   label.datas?.map(data => <option key={data}>{data}</option>)
                                 }

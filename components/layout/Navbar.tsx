@@ -28,6 +28,9 @@ export const Navbar: React.FC<PropsWithChildren<Props>> = ({ children, design, s
   const [element5, setElement5] = useState(false)
   const [element6, setElement6] = useState(false)
   const [element7, setElement7] = useState(false)
+  const [element8, setElement8] = useState(false)
+  const [element9, setElement9] = useState(false)
+  const [element10, setElement10] = useState(false)
 
   const pathname = usePathname()
 
@@ -116,6 +119,15 @@ export const Navbar: React.FC<PropsWithChildren<Props>> = ({ children, design, s
                                           setElement6(true)
                                           setTimeout(() => {
                                             setElement7(true)
+                                            setTimeout(() => {
+                                              setElement8(true)
+                                              setTimeout(() => {
+                                                setElement9(true)
+                                                setTimeout(() => {
+                                                  setElement10(true)
+                                                }, 50)
+                                              }, 50)
+                                            }, 50)
                                           }, 50)
                                         }, 50)
                                       }, 50)
@@ -140,6 +152,9 @@ export const Navbar: React.FC<PropsWithChildren<Props>> = ({ children, design, s
                               setElement5(false)
                               setElement6(false)
                               setElement7(false)
+                              setElement8(false)
+                              setElement9(false)
+                              setElement10(false)
                             }, 500)
                           }} className='flex w-5' aria-label='Boton para cerrar el menu'>
                           <svg className="m-auto w-[17px]" role="presentation" viewBox="0 0 16 14">
@@ -181,7 +196,7 @@ export const Navbar: React.FC<PropsWithChildren<Props>> = ({ children, design, s
               design.pages?.filter(page => page.header).map((page, index) => {
                 if (page.button) {
                   return (
-                    <LinkButton key={page.slug} url={page.slug} config={`${index === 0 ? element1 ? 'opacity-1' : 'opacity-0 translate-y-5' : index === 1 ? element2 ? 'opacity-1' : 'opacity-0 translate-y-4' : index === 2 ? element3 ? 'opacity-1' : 'opacity-0 translate-y-4' : index === 3 ? element4 ? 'opacity-1' : 'opacity-0 translate-y-4' : index === 4 ? element5 ? 'opacity-1' : 'opacity-0 translate-y-4' : index === 5 ? element6 ? 'opacity-1' : 'opacity-0 translate-y-4' : index === 6 ? element7 ? 'opacity-1' : 'opacity-0 translate-y-4' : ''} transition-all duration-500 py-[6px] mx-auto mb-4`} style={style} click={() => {
+                    <LinkButton key={page.slug} url={page.slug} config={`${index === 0 ? element1 ? 'opacity-1' : 'opacity-0 translate-y-5' : index === 1 ? element2 ? 'opacity-1' : 'opacity-0 translate-y-4' : index === 2 ? element3 ? 'opacity-1' : 'opacity-0 translate-y-4' : index === 3 ? element4 ? 'opacity-1' : 'opacity-0 translate-y-4' : index === 4 ? element5 ? 'opacity-1' : 'opacity-0 translate-y-4' : index === 5 ? element6 ? 'opacity-1' : 'opacity-0 translate-y-4' : index === 6 ? element7 ? 'opacity-1' : 'opacity-0 translate-y-4' : index === 7 ? element8 ? 'opacity-1' : 'opacity-0 translate-y-4' : index === 8 ? element9 ? 'opacity-1' : 'opacity-0 translate-y-4' : index === 9 ? element10 ? 'opacity-1' : 'opacity-0 translate-y-4' : ''} transition-all duration-500 py-[6px] mx-auto mb-4`} style={style} click={() => {
                       setMenu('-ml-[350px]')
                       setTimeout(() => {
                         setIndex('hidden')
@@ -192,6 +207,9 @@ export const Navbar: React.FC<PropsWithChildren<Props>> = ({ children, design, s
                         setElement5(false)
                         setElement6(false)
                         setElement7(false)
+                        setElement8(false)
+                        setElement9(false)
+                        setElement10(false)
                       }, 500)
                     }}>{page.page}</LinkButton>
                   )
@@ -211,6 +229,9 @@ export const Navbar: React.FC<PropsWithChildren<Props>> = ({ children, design, s
                           setElement5(false)
                           setElement6(false)
                           setElement7(false)
+                          setElement8(false)
+                          setElement9(false)
+                          setElement10(false)
                         }, 500)
                       }} href={`/${page.slug}`}>{page.page}<svg stroke="currentColor" fill="currentColor" strokeWidth="0" viewBox="0 0 1024 1024" className="ml-auto w-4 text-lg text-neutral-500" xmlns="http://www.w3.org/2000/svg"><path d="M765.7 486.8L314.9 134.7A7.97 7.97 0 0 0 302 141v77.3c0 4.9 2.3 9.6 6.1 12.6l360 281.1-360 281.1c-3.9 3-6.1 7.7-6.1 12.6V883c0 6.7 7.7 10.4 12.9 6.3l450.8-352.1a31.96 31.96 0 0 0 0-50.4z"></path></svg></Link>
                     )
@@ -230,6 +251,9 @@ export const Navbar: React.FC<PropsWithChildren<Props>> = ({ children, design, s
               setElement5(false)
               setElement6(false)
               setElement7(false)
+              setElement8(false)
+              setElement9(false)
+              setElement10(false)
             }, 500)
           }} />
         </div>
