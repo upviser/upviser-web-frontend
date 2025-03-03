@@ -59,7 +59,9 @@ export const Navbar: React.FC<PropsWithChildren<Props>> = ({ children, design, s
                 ? <Link href='/'><Image className={`w-auto h-[60px] py-1`} src={`${storeData.logo}`} alt='Logo' width={320} height={150} /></Link>
                 : storeData?.logoWhite && storeData?.logoWhite !== '' && design.header?.logo === 'Logo blanco'
                   ? <Link href='/'><Image className={`w-auto h-[60px] py-1`} src={`${storeData.logoWhite}`} alt='Logo blanco' width={320} height={150} /></Link>
-                  : <Link href='/'><div className='h-[60px] flex'><p className='m-auto text-2xl font-medium'>SITIO WEB</p></div></Link>
+                  : storeData?.logo && storeData?.logo !== ''
+                    ? <Link href='/'><Image className={`w-auto h-[60px] py-1`} src={`${storeData.logo}`} alt='Logo' width={320} height={150} /></Link>
+                    : <Link href='/'><div className='h-[60px] flex'><p className='m-auto text-2xl font-medium'>SITIO WEB</p></div></Link>
             }
           </div>
           {
