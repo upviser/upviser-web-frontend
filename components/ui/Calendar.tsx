@@ -379,7 +379,7 @@ export const Calendar: React.FC<CalendarProps> = ({ newClient, setNewClient, tag
                               key={hour}
                               onClick={() => handleHourSelect(hour.toString())}
                               className={`p-2 rounded-xl text-center transition-colors duration-200`}
-                              style={{ backgroundColor: isTimeSelected(hour.toString()) ? style.primary : `${content.info.textColor}20`, color: isTimeSelected(hour.toString()) ? style.button : '' }}
+                              style={{ backgroundColor: isTimeSelected(hour.toString()) ? style.primary : `${content.info.textColor && content.info.textColor !== '' ? content.info.textColor : '#111111'}20`, color: isTimeSelected(hour.toString()) ? style.button : '' }}
                             >
                               {hour}
                             </button>
@@ -579,7 +579,7 @@ export const Calendar: React.FC<CalendarProps> = ({ newClient, setNewClient, tag
           key={i} 
           disabled={!isAvailable} 
           className={`w-12 h-12 m-auto flex rounded-full transition-color duration-150`}
-          style={{ backgroundColor: isAvailable ? (isSelected ? style.primary : `${content.info.textColor}20`) : '', color: isAvailable ? (isSelected ? style.button : `${content.info.textColor}`) : `${content.info.textColor}50` }}
+          style={{ backgroundColor: isAvailable ? (isSelected ? style.primary : content.info.textColor && content.info.textColor !== '' ? `${content.info.textColor}20` : '#11111120') : '', color: isAvailable ? (isSelected ? style.button : `${content.info.textColor}`) : `${content.info.textColor}50` }}
           onClick={() => handleDateTimeSelect(currentDate)}
         >
           <p className='m-auto'>{i}</p>
