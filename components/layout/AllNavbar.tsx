@@ -341,11 +341,11 @@ export const AllNavbar: React.FC<PropsWithChildren<Props>> = ({ children, design
           : ''
       }
       {
-        funnels.find(funnel => funnel.steps.find(step => step.slug && step.slug !== '' ? `/${step.slug}` === pathname : false)) || services.find(service => service.steps.find(step => step.slug && step.slug !== '' ? `/${step.slug}` === pathname : false))
+        funnels.find(funnel => funnel.steps.find(step => step.slug && step.slug !== '' ? `/${step.slug}` === pathname : false)) || services.find(service => service.steps.find(step => step.slug && step.slug !== '' ? `/${step.slug}` === pathname : false)) || pathname.includes('/llamadas')
           ? (
             <div className='flex flex-col justify-between min-h-screen'>
               { children }
-              <div className='w-full p-6 flex flex-col gap-4' style={{ backgroundColor: design.footer.bgColor, color: design.footer.textColor }}>
+              <div className='w-full p-6 flex flex-col gap-4' style={{ backgroundColor: design.footer?.bgColor && design.footer.bgColor !== '' ? design.footer.bgColor : '#111111', color: design.footer?.textColor && design.footer.textColor !== '' ? design.footer.textColor : '#ffffff' }}>
                 {
                   storeData?.logoWhite
                     ? <Link href='/' target='_blank'><Image className='w-48 h-auto m-auto' src={storeData.logoWhite} alt='Logo' width={320} height={150} /></Link>
@@ -370,11 +370,11 @@ export const AllNavbar: React.FC<PropsWithChildren<Props>> = ({ children, design
                     : ''
                 }
                 {
-                  design.footer.funnelText && design.footer.funnelText !== ''
+                  design.footer?.funnelText && design.footer.funnelText !== ''
                     ? <p className='text-sm text-center m-auto' style={{ color: `${design.footer.textColor}80` }}>{design.footer.funnelText}</p>
                     : ''
                 }
-                <p className='m-auto text-center' style={{ color: design.footer.textColor }}>{storeData?.name} © 2024. Todos los derechos reservados.</p>
+                <p className='m-auto text-center' style={{ color: design.footer?.textColor && design.footer.textColor !== '' ? design.footer.textColor : '#ffffff' }}>{storeData?.name} © 2024. Todos los derechos reservados.</p>
               </div>
             </div>
           )

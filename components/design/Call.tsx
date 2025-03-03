@@ -11,8 +11,15 @@ import Image from 'next/image'
 export const Call = ({ calls, content, step, services, payment, storeData, index, style }: { calls: ICall[], content: IDesign, step?: string, services: IService[], payment: IPayment, storeData?: IStoreData, index: number, style?: any }) => {
 
   const [newClient, setNewClient] = useState<IClient>({ email: '', meetings: [{ meeting: calls.find(call => call._id === content.meeting)?._id! }] })
-  const [view, setView] = useState(false)
   const [calendar, setCalendar] = useState(false)
+  const [logo, setLogo] = useState(false)
+  const [title, setTitle] = useState(false)
+  const [description, setDescription] = useState(false)
+  const [view, setView] = useState(false)
+
+  const logoRef = useRef()
+  const titleRef = useRef(null)
+  const descriptionRef = useRef(null)
   const ref = useRef(null)
 
   const pathname = usePathname()
@@ -37,11 +44,86 @@ export const Call = ({ calls, content, step, services, payment, storeData, index
     const observer = new IntersectionObserver(
       ([entry]) => {
         if (entry.isIntersecting) {
-          setView(true);
+          setLogo(true);
           observer.unobserve(entry.target);
           setTimeout(() => {
             setCalendar(true)
+          }, 100);
+        }
+      },
+      { threshold: 0.5 }
+    );
+
+    if (logoRef.current) {
+      observer.observe(logoRef.current);
+    }
+
+    return () => {
+      if (logoRef.current) {
+        observer.unobserve(logoRef.current);
+      }
+    };
+  }, []);
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setTimeout(() => {
+            setTitle(true);
+          }, 100);
+          observer.unobserve(entry.target);
+        }
+      },
+      { threshold: 0.5 }
+    );
+
+    if (titleRef.current) {
+      observer.observe(titleRef.current);
+    }
+
+    return () => {
+      if (titleRef.current) {
+        observer.unobserve(titleRef.current);
+      }
+    };
+  }, []);
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setTimeout(() => {
+            setDescription(true);
           }, 200);
+          observer.unobserve(entry.target);
+        }
+      },
+      { threshold: 0.5 }
+    );
+
+    if (descriptionRef.current) {
+      observer.observe(descriptionRef.current);
+    }
+
+    return () => {
+      if (descriptionRef.current) {
+        observer.unobserve(descriptionRef.current);
+      }
+    };
+  }, []);
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setTimeout(() => {
+            setView(true);
+            setTimeout(() => {
+              setCalendar(true)
+            }, 100);
+          }, 300);
+          observer.unobserve(entry.target);
         }
       },
       { threshold: 0.5 }
@@ -69,21 +151,23 @@ export const Call = ({ calls, content, step, services, payment, storeData, index
               : ''
         }
         {
-          content.info.title && content.info.title !== '' || content.info.description && content.info.description !== ''
+          content.info.title && content.info.title !== ''
             ? (
-              <div className={`flex flex-col gap-4`}>
+              <div ref={titleRef} className={`${title ? 'opacity-1' : 'opacity-0 translate-y-6'} transition-all duration-500`}>
                 {
-                  content.info.title && content.info.title !== ''
-                    ? index === 0
-                      ? <H1 text={content.info.title} color={content.info.textColor} config='text-center font-semibold' />
-                      : <H2 text={content.info.title} color={content.info.textColor} config='text-center font-semibold' />
-                    : ''
+                  index === 0
+                    ? <H1 text={content.info.title} color={content.info.textColor} config='text-center font-semibold' />
+                    : <H2 text={content.info.title} color={content.info.textColor} config='text-center font-semibold' />
                 }
-                {
-                  content.info.description && content.info.description !== ''
-                    ? <P text={content.info.description} color={content.info.textColor} config='text-center' />
-                    : ''
-                }
+              </div>
+            )
+            : ''
+        }
+        {
+          content.info.description && content.info.description !== ''
+            ? (
+              <div ref={descriptionRef} className={`${description ? 'opacity-1' : 'opacity-0 translate-y-6'} transition-all duration-500`}>
+                <P text={content.info.description} color={content.info.textColor} />
               </div>
             )
             : ''

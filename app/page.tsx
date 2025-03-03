@@ -2,7 +2,7 @@ import { ContactPage } from "@/components/contact"
 import { Slider } from "@/components/home"
 import { Subscribe } from "@/components/ui"
 import { Design } from "@/interfaces"
-import { Block1, Block2, Block3, Block4, Block5, Block7, Blocks, Call, Calls, Checkout, Faq, Form, Lead1, Lead2, Lead3, Plans, Services, Table, Video } from '@/components/design'
+import { Block1, Block2, Block3, Block4, Block5, Block7, Blocks, Call, Calls, Checkout, Faq, Form, Lead1, Lead2, Lead3, Plans, Reviews, Services, Table, Video } from '@/components/design'
 
 export const revalidate = 3600
 
@@ -127,6 +127,8 @@ export default async function Home() {
                       return <Blocks key={content.content} content={content} index={index} style={style} />
                     } else if (content.content === 'Formulario') {
                       return <Form key={content.content} content={content} index={index} style={style} forms={forms} />
+                    } else if (content.content === 'Reseñas') {
+                      return <Reviews key={content.content} content={content} index={index} style={style} />
                     }
                   })
                 }

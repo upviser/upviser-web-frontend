@@ -62,7 +62,9 @@ export const Calendar: React.FC<CalendarProps> = ({ newClient, setNewClient, tag
   const router = useRouter()
   const pathname = usePathname()
 
-  initMercadoPago(payment.mercadoPago.publicKey!)
+  if (payment?.mercadoPago?.publicKey) {
+    initMercadoPago(payment.mercadoPago.publicKey)
+  }
 
   const getDates = async () => {
       try {

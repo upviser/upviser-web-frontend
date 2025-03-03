@@ -19,6 +19,11 @@ export const Blocks: React.FC<Props> = ({ content, index, style }) => {
   const [block3Loaded, setBlock3Loaded] = useState(false);
   const [block4Loaded, setBlock4Loaded] = useState(false);
   const [block5Loaded, setBlock5Loaded] = useState(false);
+  const [block6Loaded, setBlock6Loaded] = useState(false);
+  const [block7Loaded, setBlock7Loaded] = useState(false);
+  const [block8Loaded, setBlock8Loaded] = useState(false);
+  const [block9Loaded, setBlock9Loaded] = useState(false);
+  const [block10Loaded, setBlock10Loaded] = useState(false);
 
   const titleRef = useRef(null);
   const descriptionRef = useRef(null);
@@ -27,6 +32,11 @@ export const Blocks: React.FC<Props> = ({ content, index, style }) => {
   const block3Ref = useRef(null);
   const block4Ref = useRef(null);
   const block5Ref = useRef(null);
+  const block6Ref = useRef(null);
+  const block7Ref = useRef(null);
+  const block8Ref = useRef(null);
+  const block9Ref = useRef(null);
+  const block10Ref = useRef(null);
 
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -196,6 +206,126 @@ export const Blocks: React.FC<Props> = ({ content, index, style }) => {
     };
   }, []);
 
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setTimeout(() => {
+            setBlock6Loaded(true);
+          }, 700);
+          observer.unobserve(entry.target);
+        }
+      },
+      { threshold: 0.5 }
+    );
+
+    if (block6Ref.current) {
+      observer.observe(block6Ref.current);
+    }
+
+    return () => {
+      if (block6Ref.current) {
+        observer.unobserve(block6Ref.current);
+      }
+    };
+  }, []);
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setTimeout(() => {
+            setBlock7Loaded(true);
+          }, 700);
+          observer.unobserve(entry.target);
+        }
+      },
+      { threshold: 0.5 }
+    );
+
+    if (block7Ref.current) {
+      observer.observe(block7Ref.current);
+    }
+
+    return () => {
+      if (block7Ref.current) {
+        observer.unobserve(block7Ref.current);
+      }
+    };
+  }, []);
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setTimeout(() => {
+            setBlock8Loaded(true);
+          }, 700);
+          observer.unobserve(entry.target);
+        }
+      },
+      { threshold: 0.5 }
+    );
+
+    if (block8Ref.current) {
+      observer.observe(block8Ref.current);
+    }
+
+    return () => {
+      if (block8Ref.current) {
+        observer.unobserve(block8Ref.current);
+      }
+    };
+  }, []);
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setTimeout(() => {
+            setBlock9Loaded(true);
+          }, 700);
+          observer.unobserve(entry.target);
+        }
+      },
+      { threshold: 0.5 }
+    );
+
+    if (block9Ref.current) {
+      observer.observe(block9Ref.current);
+    }
+
+    return () => {
+      if (block9Ref.current) {
+        observer.unobserve(block9Ref.current);
+      }
+    };
+  }, []);
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setTimeout(() => {
+            setBlock10Loaded(true);
+          }, 700);
+          observer.unobserve(entry.target);
+        }
+      },
+      { threshold: 0.5 }
+    );
+
+    if (block10Ref.current) {
+      observer.observe(block10Ref.current);
+    }
+
+    return () => {
+      if (block10Ref.current) {
+        observer.unobserve(block10Ref.current);
+      }
+    };
+  }, []);
+
   const toggleQuestion = (i: number) => {
     setQuestion(question === i ? -1 : i);
   };
@@ -251,8 +381,8 @@ export const Blocks: React.FC<Props> = ({ content, index, style }) => {
                   {content.info.blocks?.map((block, i) => (
                     <div
                       key={i}
-                      ref={i === 0 ? block1Ref : i === 1 ? block2Ref : i === 2 ? block3Ref : i === 3 ? block4Ref : i === 4 ? block5Ref : ''}
-                      className={`${i === 0 ? block1Loaded ? 'opacity-1' : 'opacity-0 translate-y-6' : i === 1 ? block2Loaded ? 'opacity-1' : 'opacity-0 translate-y-6' : i === 2 ? block3Loaded ? 'opacity-1' : 'opacity-0 translate-y-6' : i === 3 ? block4Loaded ? 'opacity-1' : 'opacity-0 translate-y-6' : i === 4 ? block5Loaded ? 'opacity-1' : 'opacity-0 translate-y-6' : ''} transition-all duration-500 flex flex-col p-6 w-full max-w-96 min-h-48 lg:min-h-56`}
+                      ref={i === 0 ? block1Ref : i === 1 ? block2Ref : i === 2 ? block3Ref : i === 3 ? block4Ref : i === 4 ? block5Ref : i === 5 ? block6Ref : i === 6 ? block7Ref : i === 7 ? block8Ref : i === 8 ? block9Ref : i === 9 ? block10Ref : null}
+                      className={`${i === 0 ? block1Loaded ? 'opacity-1' : 'opacity-0 translate-y-6' : i === 1 ? block2Loaded ? 'opacity-1' : 'opacity-0 translate-y-6' : i === 2 ? block3Loaded ? 'opacity-1' : 'opacity-0 translate-y-6' : i === 3 ? block4Loaded ? 'opacity-1' : 'opacity-0 translate-y-6' : i === 4 ? block5Loaded ? 'opacity-1' : 'opacity-0 translate-y-6' : i === 5 ? block6Loaded ? 'opacity-1' : 'opacity-0 translate-y-6' : i === 6 ? block7Loaded ? 'opacity-1' : 'opacity-0 translate-y-6' : i === 7 ? block8Loaded ? 'opacity-1' : 'opacity-0 translate-y-6' : i === 8 ? block9Loaded ? 'opacity-1' : 'opacity-0 translate-y-6' : i === 9 ? block10Loaded ? 'opacity-1' : 'opacity-0 translate-y-6' : ''} transition-all duration-500 flex flex-col p-6 w-full max-w-96 min-h-48 lg:min-h-56`}
                       style={{
                         boxShadow: style.design === 'Sombreado' ? `0px 3px 20px 3px ${style.borderColor}10` : '',
                         borderRadius: style.form === 'Redondeadas' ? `${style.borderBlock}px` : '',

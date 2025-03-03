@@ -25,6 +25,11 @@ async function fetchStoreData () {
   return res.json()
 }
 
+async function fetchStyle () {
+  const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/style`)
+  return res.json()
+}
+
 export default async function Page({ params }: { params: { call: string } }) {
 
   const callData = fetchCall(params.call)
@@ -37,11 +42,13 @@ export default async function Page({ params }: { params: { call: string } }) {
 
   const storeDataData = fetchStoreData()
 
-  const [call, calls, services, payment, storeData] = await Promise.all([callData, callsData, servicesData, paymentData, storeDataData])
+  const styleData = fetchStyle()
+
+  const [call, calls, services, payment, storeData, style] = await Promise.all([callData, callsData, servicesData, paymentData, storeDataData, styleData])
 
   return (
     <>
-      <Call calls={calls} content={{ content: '', info: {}, meeting: call._id }} services={services} payment={payment} storeData={storeData} index={0} />
+      <Call calls={calls} content={{ content: '', info: { titleForm: 'Logo principal', video: 'Logo' }, meeting: call._id }} services={services} payment={payment} storeData={storeData} index={0} style={style} />
     </>
   )
 }
