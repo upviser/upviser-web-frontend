@@ -38,6 +38,11 @@ const nextConfig = {
         hostname: 'salud-en-casa-site-cdn.b-cdn.net',
         port: '',
         pathname: '/**'
+      }, {
+        protocol: 'https',
+        hostname: 'clinic-pie-site-cdn.b-cdn.net',
+        port: '',
+        pathname: '/**'
       }
     ]
   }
