@@ -174,7 +174,7 @@ export const Navbar: React.FC<PropsWithChildren<Props>> = ({ children, design, s
           </div>
         </div>
         <div className={`${index} w-full ${menu === '' ? 'bg-black/30' : ''} transition-colors duration-500 absolute z-30 justify-between 530:hidden`} style={{ top: '60px', height: 'calc(100vh - 49px)' }}>
-          <div className={`${menu} flex flex-col p-4 shadow-md transition-all duration-500 overflow-hidden`} style={{ backgroundColor: design.header?.bgColor }}>
+          <div className={`${menu} flex flex-col p-4 shadow-md transition-all duration-500 overflow-hidden`} style={{ backgroundColor: design.header?.bgColor && design.header.bgColor !== '' ? design.header.bgColor : '#ffffff' }}>
             {
               design.pages?.filter(page => page.header).map((page, index) => {
                 if (page.button) {
@@ -231,7 +231,7 @@ export const Navbar: React.FC<PropsWithChildren<Props>> = ({ children, design, s
             }, 500)
           }} />
         </div>
-        <div className={`${subPages !== -1 ? 'top-0' : '-mt-[130px]'} transition-all duration-500 z-30 w-full p-6 flex absolute h-32`} style={{ top: '52px', boxShadow: style.design === 'Sombreado' ? '0px 0px 10px 0px #11111115' : '', backgroundColor: design.header?.bgColor, color: design.header?.textColor, border: style.design === 'Borde' ? `1px solid ${style.borderColor}` : '' }} onMouseEnter={() => setSubPages(subPages)} onMouseLeave={() => setSubPages(-1)}>
+        <div className={`${subPages !== -1 ? 'top-0' : '-mt-[130px]'} transition-all duration-500 z-30 w-full p-6 flex absolute h-32`} style={{ top: '52px', boxShadow: style.design === 'Sombreado' ? '0px 0px 10px 0px #11111115' : '', backgroundColor: design.header?.bgColor && design.header.bgColor !== '' ? design.header.bgColor : '#ffffff', color: design.header?.textColor, border: style.design === 'Borde' ? `1px solid ${style.borderColor}` : '' }} onMouseEnter={() => setSubPages(subPages)} onMouseLeave={() => setSubPages(-1)}>
           <div className='m-auto flex gap-6'>
             {
               subPages !== -1 ? design.pages[subPages].subPage?.map(subPage => <Link key={subPage.slug} href={subPage.slug!} className='text-lg' onClick={() => setSubPages(-1)}>{subPage.page}</Link>) : ''

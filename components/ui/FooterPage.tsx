@@ -6,7 +6,7 @@ import React from 'react'
 
 export const FooterPage = ({ storeData, politics, design }: { storeData: IStoreData, politics?: IPolitics, design: Design }) => {
   return (
-    <div className='flex pl-4 pr-4 pt-14 pb-14 z-40' style={{ backgroundColor: design.footer?.bgColor && design.footer?.bgColor !== '' ? design.footer.bgColor : '#000000', color: design.footer?.textColor && design.footer?.textColor !== '' ? design.footer.textColor : '#ffffff' }}>
+    <div className='flex pl-4 pr-4 pt-14 pb-14 z-30' style={{ backgroundColor: design.footer?.bgColor && design.footer?.bgColor !== '' ? design.footer.bgColor : '#000000', color: design.footer?.textColor && design.footer?.textColor !== '' ? design.footer.textColor : '#ffffff' }}>
       <div className='w-[1280px] m-auto'>
         <div className='flex gap-4 justify-between flex-wrap pb-6 border-b'>
           <div>

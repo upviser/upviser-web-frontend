@@ -35,7 +35,7 @@ const nextConfig = {
         pathname: '/**'
       }, {
         protocol: 'https',
-        hostname: 'saludencasa-site-cdn.b-cdn.net',
+        hostname: 'salud-en-casa-site-cdn.b-cdn.net',
         port: '',
         pathname: '/**'
       }
