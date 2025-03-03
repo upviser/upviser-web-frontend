@@ -8,7 +8,7 @@ export const FooterPage = ({ storeData, politics, design }: { storeData: IStoreD
   return (
     <div className='flex pl-4 pr-4 pt-14 pb-14 z-30' style={{ backgroundColor: design.footer?.bgColor && design.footer?.bgColor !== '' ? design.footer.bgColor : '#000000', color: design.footer?.textColor && design.footer?.textColor !== '' ? design.footer.textColor : '#ffffff' }}>
       <div className='w-[1280px] m-auto'>
-        <div className='flex gap-4 justify-between flex-wrap pb-6 border-b'>
+        <div className='flex gap-4 justify-between flex-wrap pb-6'>
           <div>
             {
               storeData?.logoWhite
@@ -18,6 +18,16 @@ export const FooterPage = ({ storeData, politics, design }: { storeData: IStoreD
             {
               storeData?.email && storeData?.email !== ''
                 ? <p className='mb-4 text-sm'>{storeData.email}</p>
+                : ''
+            }
+            {
+              storeData?.phone && storeData?.phone !== ''
+                ? <p className='mb-4 text-sm'>+56{storeData.phone}</p>
+                : ''
+            }
+            {
+              storeData?.address && storeData?.address !== ''
+                ? <p className='mb-4 text-sm'>{storeData?.address}, {storeData.city}, {storeData.region}</p>
                 : ''
             }
             <div className='flex gap-4'>
@@ -69,9 +79,6 @@ export const FooterPage = ({ storeData, politics, design }: { storeData: IStoreD
               )
               : ''
           }
-        </div>
-        <div className='mt-4'>
-          <span className='text-sm'>© 2025 {storeData?.name}. Todos los derechos reservados</span>
         </div>
       </div>
     </div>
