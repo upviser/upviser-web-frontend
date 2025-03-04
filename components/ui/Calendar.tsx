@@ -53,6 +53,7 @@ export const Calendar: React.FC<CalendarProps> = ({ newClient, setNewClient, tag
   const [token, setToken] = useState('')
   const [url, setUrl] = useState('')
   const [transbankLoading, setTransbankLoading] = useState(false)
+  const [type, setType] = useState('')
 
   const clientRef: any = useRef(newClient);
   const selectDate: any = useRef(selectedDateTime)
@@ -235,7 +236,7 @@ export const Calendar: React.FC<CalendarProps> = ({ newClient, setNewClient, tag
               stepFind = respo.data.steps.find((ste: any) => `/${ste.slug}` === pathname)
             }
             const newEventId = new Date().getTime().toString()
-            await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/meeting`, { ...clientRef.current, date: selectDate.current, tags: tags, meeting: meeting, call: call.nameMeeting, duration: call.duration === '15 minutos' ? 15 : call.duration === '20 minutos' ? 20 : call.duration === '25 minutos' ? 25 : call.duration === '30 minutos' ? 30 : call.duration === '40 minutos' ? 40 : call.duration === '45 minutos' ? 45 : call.duration === '50 minutos' ? 50 : call.duration === '60 minutos' ? 60 : call.duration === '70 minutos' ? 70 : call.duration === '80 minutos' ? 80 : call.duration === '90 minutos' ? 90 : call.duration === '100 minutos' ? 100 : call.duration === '110 minutos' ? 110 : call.duration === '120 minutos' ? 120 : 120, fbp: Cookies.get('_fbp'), fbc: Cookies.get('_fbc'), page: pathname, service: clientRef.current.services?.length && clientRef.current.services[0].service && clientRef.current.services[0].service !== '' ? clientRef.current.services[0].service : undefined, stepService: services?.find(service => service.steps.find(step => `/${step.slug}` === pathname))?.steps.find(step => `/${step.slug}` === pathname)?._id, funnel: respo?.data._id, step: stepFind?._id, eventId: newEventId, price: call.price, type: call.type, calendar: call.calendar })
+            await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/meeting`, { ...clientRef.current, date: selectDate.current, tags: tags, meeting: meeting, call: call.nameMeeting, duration: call.duration === '15 minutos' ? 15 : call.duration === '20 minutos' ? 20 : call.duration === '25 minutos' ? 25 : call.duration === '30 minutos' ? 30 : call.duration === '40 minutos' ? 40 : call.duration === '45 minutos' ? 45 : call.duration === '50 minutos' ? 50 : call.duration === '60 minutos' ? 60 : call.duration === '70 minutos' ? 70 : call.duration === '80 minutos' ? 80 : call.duration === '90 minutos' ? 90 : call.duration === '100 minutos' ? 100 : call.duration === '110 minutos' ? 110 : call.duration === '120 minutos' ? 120 : 120, fbp: Cookies.get('_fbp'), fbc: Cookies.get('_fbc'), page: pathname, service: clientRef.current.services?.length && clientRef.current.services[0].service && clientRef.current.services[0].service !== '' ? clientRef.current.services[0].service : undefined, stepService: services?.find(service => service.steps.find(step => `/${step.slug}` === pathname))?.steps.find(step => `/${step.slug}` === pathname)?._id, funnel: respo?.data._id, step: stepFind?._id, eventId: newEventId, price: call.price, type: call.type?.length && call.type.length >= 2 ? type : call.type, calendar: call.calendar })
             fbq('track', 'Schedule', { first_name: clientRef.current.firstName, last_name: clientRef.current.lastName, email: clientRef.current.email, phone: clientRef.current.phone && clientRef.current.phone !== '' ? `56${clientRef.current.phone}` : undefined, content_name: call._id, currency: "clp", value: call.price, contents: { id: call._id, item_price: call.price, quantity: 1 }, fbc: Cookies.get('_fbc'), fbp: Cookies.get('_fbp'), event_source_url: `${process.env.NEXT_PUBLIC_WEB_URL}${pathname}` }, { eventID: newEventId })
             socket.emit('newNotification', { title: 'Nueva reunion agendada:', description: meeting, url: '/llamadas', view: false })
             await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/notification`, { title: 'Nueva reunion agendada:', description: call.nameMeeting, url: '/reuniones', view: false })
@@ -311,7 +312,7 @@ export const Calendar: React.FC<CalendarProps> = ({ newClient, setNewClient, tag
         stepFind = respo.data?.steps?.find((ste: any) => `/${ste.slug}` === pathname)
       }
       const newEventId = new Date().getTime().toString()
-      await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/meeting`, { ...newClient, date: selectedDateTime, tags: tags, meeting: meeting, call: call.nameMeeting, duration: call.duration === '15 minutos' ? 15 : call.duration === '20 minutos' ? 20 : call.duration === '25 minutos' ? 25 : call.duration === '30 minutos' ? 30 : call.duration === '40 minutos' ? 40 : call.duration === '45 minutos' ? 45 : call.duration === '50 minutos' ? 50 : call.duration === '60 minutos' ? 60 : call.duration === '70 minutos' ? 70 : call.duration === '80 minutos' ? 80 : call.duration === '90 minutos' ? 90 : call.duration === '100 minutos' ? 100 : call.duration === '110 minutos' ? 110 : call.duration === '120 minutos' ? 120 : 120, fbp: Cookies.get('_fbp'), fbc: Cookies.get('_fbc'), page: pathname, service: newClient.services?.length && newClient.services[0].service && newClient.services[0].service !== '' ? newClient.services[0].service : undefined, stepService: services?.find(service => service.steps.find(step => `/${step.slug}` === pathname))?.steps.find(step => `/${step.slug}` === pathname)?._id, funnel: respo?.data?._id, step: stepFind?._id, eventId: newEventId, type: call.type, calendar: call.calendar })
+      await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/meeting`, { ...newClient, date: selectedDateTime, tags: tags, meeting: meeting, call: call.nameMeeting, duration: call.duration === '15 minutos' ? 15 : call.duration === '20 minutos' ? 20 : call.duration === '25 minutos' ? 25 : call.duration === '30 minutos' ? 30 : call.duration === '40 minutos' ? 40 : call.duration === '45 minutos' ? 45 : call.duration === '50 minutos' ? 50 : call.duration === '60 minutos' ? 60 : call.duration === '70 minutos' ? 70 : call.duration === '80 minutos' ? 80 : call.duration === '90 minutos' ? 90 : call.duration === '100 minutos' ? 100 : call.duration === '110 minutos' ? 110 : call.duration === '120 minutos' ? 120 : 120, fbp: Cookies.get('_fbp'), fbc: Cookies.get('_fbc'), page: pathname, service: newClient.services?.length && newClient.services[0].service && newClient.services[0].service !== '' ? newClient.services[0].service : undefined, stepService: services?.find(service => service.steps.find(step => `/${step.slug}` === pathname))?.steps.find(step => `/${step.slug}` === pathname)?._id, funnel: respo?.data?._id, step: stepFind?._id, eventId: newEventId, type: call.type?.length && call.type.length >= 2 ? type : call.type, calendar: call.calendar })
       fbq('track', 'Schedule', { first_name: newClient.firstName, last_name: newClient.lastName, email: newClient.email, phone: newClient.phone && newClient.phone !== '' ? `56${newClient.phone}` : undefined, content_name: call._id, currency: "clp", value: call.price, contents: { id: call._id, item_price: call.price, quantity: 1 }, fbc: Cookies.get('_fbc'), fbp: Cookies.get('_fbp'), event_source_url: `${process.env.NEXT_PUBLIC_WEB_URL}${pathname}` }, { eventID: newEventId })
       socket.emit('newNotification', { title: 'Nueva reunion agendada:', description: meeting, url: '/llamadas', view: false })
       await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/notification`, { title: 'Nueva reunion agendada:', description: meeting, url: '/reuniones', view: false })
@@ -398,6 +399,21 @@ export const Calendar: React.FC<CalendarProps> = ({ newClient, setNewClient, tag
                   }
                   <p className='text-lg font-semibold'>Completa tus datos</p>
                   {
+                    call.type?.length && call.type.length >= 2
+                      ? (
+                        <div className='flex flex-col gap-2'>
+                          <p>Selecciona el tipo</p>
+                          <Select selectChange={(e: any) => setType(e.target.value)} value={type} style={style}>
+                            <option>Selecciona el tipo</option>
+                            {
+                              call.type.map(typ => <option key={typ}>{typ}</option>)
+                            }
+                          </Select>
+                        </div>
+                      )
+                      : ''
+                  }
+                  {
                     call.labels?.map(label => (
                       <div key={label._id} className="flex flex-col gap-2">
                         <p>{label.text}</p>
@@ -468,6 +484,53 @@ export const Calendar: React.FC<CalendarProps> = ({ newClient, setNewClient, tag
                         }
                       </div>
                     ))
+                  }
+                  {
+                    call.type?.length && call.type.length >= 2
+                      ? type === 'Visita a domicilio'
+                        ? (
+                          <>
+                            <div className='flex flex-col gap-2'>
+                              <p>Dirección</p>
+                              <Input inputChange={(e: any) => setNewClient({ ...newClient, address: e.target.value })} value={newClient.address} placeholder={'Dirección'} style={style} />
+                            </div>
+                            <div className='flex flex-col gap-2'>
+                              <p>Detalles</p>
+                              <Input inputChange={(e: any) => setNewClient({ ...newClient, details: e.target.value })} value={newClient.details} placeholder={'Detalles'} style={style} />
+                            </div>
+                            <div className='flex flex-col gap-2'>
+                              <p>Ciudad</p>
+                              <Input inputChange={(e: any) => setNewClient({ ...newClient, city: e.target.value })} value={newClient.city} placeholder={'Ciudad'} style={style} />
+                            </div>
+                            <div className='flex flex-col gap-2'>
+                              <p>Región</p>
+                              <Input inputChange={(e: any) => setNewClient({ ...newClient, region: e.target.value })} value={newClient.region} placeholder={'Región'} style={style} />
+                            </div>
+                          </>
+                        )
+                        : ''
+                      : call.type![0] === 'Visita a domicilio'
+                        ? (
+                          <>
+                            <div className='flex flex-col gap-2'>
+                              <p>Dirección</p>
+                              <Input inputChange={(e: any) => setNewClient({ ...newClient, address: e.target.value })} value={newClient.address} placeholder={'Dirección'} style={style} />
+                            </div>
+                            <div className='flex flex-col gap-2'>
+                              <p>Detalles</p>
+                              <Input inputChange={(e: any) => setNewClient({ ...newClient, details: e.target.value })} value={newClient.details} placeholder={'Detalles'} style={style} />
+                            </div>
+                            <div className='flex flex-col gap-2'>
+                              <p>Ciudad</p>
+                              <Input inputChange={(e: any) => setNewClient({ ...newClient, city: e.target.value })} value={newClient.city} placeholder={'Ciudad'} style={style} />
+                            </div>
+                            <div className='flex flex-col gap-2'>
+                              <p>Región</p>
+                              <Input inputChange={(e: any) => setNewClient({ ...newClient, region: e.target.value })} value={newClient.region} placeholder={'Región'} style={style} />
+                            </div>
+                          </>
+                        )
+                        : ''
                   }
                   {
                     call.price && call.price !== ''

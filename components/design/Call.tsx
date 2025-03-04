@@ -12,12 +12,14 @@ export const Call = ({ calls, content, step, services, payment, storeData, index
 
   const [newClient, setNewClient] = useState<IClient>({ email: '', meetings: [{ meeting: calls.find(call => call._id === content.meeting)?._id! }] })
   const [calendar, setCalendar] = useState(false)
-  const [logo, setLogo] = useState(false)
+  const [viewLogo, setViewLogo] = useState(false)
+  const [viewLogo2, setViewLogo2] = useState(false)
   const [title, setTitle] = useState(false)
   const [description, setDescription] = useState(false)
   const [view, setView] = useState(false)
 
-  const logoRef = useRef()
+  const refLogo = useRef(null)
+  const refLogo2 = useRef(null)
   const titleRef = useRef(null)
   const descriptionRef = useRef(null)
   const ref = useRef(null)
@@ -44,23 +46,42 @@ export const Call = ({ calls, content, step, services, payment, storeData, index
     const observer = new IntersectionObserver(
       ([entry]) => {
         if (entry.isIntersecting) {
-          setLogo(true);
+          setViewLogo(true);
           observer.unobserve(entry.target);
-          setTimeout(() => {
-            setCalendar(true)
-          }, 100);
         }
       },
       { threshold: 0.5 }
     );
 
-    if (logoRef.current) {
-      observer.observe(logoRef.current);
+    if (refLogo.current) {
+      observer.observe(refLogo.current);
     }
 
     return () => {
-      if (logoRef.current) {
-        observer.unobserve(logoRef.current);
+      if (refLogo.current) {
+        observer.unobserve(refLogo.current);
+      }
+    };
+  }, []);
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setViewLogo2(true);
+          observer.unobserve(entry.target);
+        }
+      },
+      { threshold: 0.5 }
+    );
+
+    if (refLogo2.current) {
+      observer.observe(refLogo2.current);
+    }
+
+    return () => {
+      if (refLogo2.current) {
+        observer.unobserve(refLogo2.current);
       }
     };
   }, []);
@@ -145,9 +166,9 @@ export const Call = ({ calls, content, step, services, payment, storeData, index
       <div className="w-full flex flex-col gap-8 max-w-[1280px] m-auto">
         {
           content.info.titleForm === 'Logo principal' && storeData?.logo && storeData.logo !== ''
-            ? <Link href='/' target='_blank' className='w-fit m-auto'><Image src={storeData.logo} alt={`Logo ${storeData.name}`} width={320} height={150} className='w-44 m-auto lg:w-52' /></Link>
+            ? <Link ref={refLogo} href='/' target='_blank' className={`${viewLogo ? 'opacity-1' : 'opacity-0 translate-y-6'} transition-all duration-500 w-fit m-auto`}><Image src={storeData.logo} alt={`Logo ${storeData.name}`} width={320} height={150} className='w-44 m-auto lg:w-52' /></Link>
             : content.info.titleForm === 'Logo blanco' && storeData?.logoWhite && storeData.logoWhite !== ''
-              ? <Link href='/' target='_blank' className='w-fit m-auto'><Image src={storeData.logoWhite} alt={`Logo ${storeData.name}`} width={320} height={150} className='w-44 m-auto lg:w-52' /></Link>
+              ? <Link ref={refLogo2} href='/' target='_blank' className={`${viewLogo2 ? 'opacity-1' : 'opacity-0 translate-y-6'} transition-all duration-500 w-fit m-auto`}><Image src={storeData.logoWhite} alt={`Logo ${storeData.name}`} width={320} height={150} className='w-44 m-auto lg:w-52' /></Link>
               : ''
         }
         {
@@ -182,7 +203,7 @@ export const Call = ({ calls, content, step, services, payment, storeData, index
                       ? <Image src={storeData.logo} alt={`Imagen logo ${storeData.name}`} width={200} height={150} className='w-40' />
                       : storeData?.logoWhite && storeData.logoWhite !== '' && content.info.video === 'Logo blanco'
                         ? <Image src={storeData.logoWhite} alt={`Imagen logo ${storeData.name}`} width={200} height={150} className='w-40' />
-                        : <p className='text-lg font-medium'>{storeData?.name}</p>
+                        : ''
                   }
                   {
                     calls.find(call => call._id === content.meeting)
@@ -206,19 +227,22 @@ export const Call = ({ calls, content, step, services, payment, storeData, index
                 {
                   calls.find(call => call._id === content.meeting)
                     ? (
-                      <div className="flex flex-col gap-3">
-                        <p className="font-medium">Descripción:</p>
-                        <div onClick={() => console.log(calls.find(call => call._id === content.meeting)?.description)} className="flex flex-col gap-2">
-                          {
-                            calls.find(call => call._id === content.meeting)?.description?.split('\n').map(text => <p key={text}>{text}</p>)
-                          }
+                      <>
+                        <p>Tipo: {calls.find(call => call._id === content.meeting)?.type?.map((typ, index) => index === 0 ? typ : ` - ${typ}`)}</p>
+                        <div className="flex flex-col gap-3">
+                          <p className="font-medium">Descripción:</p>
+                          <div onClick={() => console.log(calls.find(call => call._id === content.meeting)?.description)} className="flex flex-col gap-2">
+                            {
+                              calls.find(call => call._id === content.meeting)?.description?.split('\n').map(text => <p key={text}>{text}</p>)
+                            }
+                          </div>
                         </div>
-                      </div>
+                      </>
                     )
                     : ''
                 }
                 {
-                  calls.find(call => call._id === content.meeting)?.type === 'Visita' && storeData?.address
+                  calls.find(call => call._id === content.meeting)?.type?.find(typ => typ === 'Visita al local') && storeData?.address
                     ? (
                       <div className="flex flex-col gap-3">
                         <p className="font-medium">Dirección:</p>

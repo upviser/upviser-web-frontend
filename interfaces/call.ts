@@ -1,6 +1,6 @@
 export interface ICall {
     _id?: string
-    type?: string
+    type?: string[]
     nameMeeting: string
     title?: string
     duration: string
