@@ -27,7 +27,7 @@ export const SubPage: React.FC<Props> = ({ page, setMenu, setIndex, design, styl
 
   useEffect(() => {
     if (subPageRef.current) {
-      setSubPage(rotate === '-rotate-90' ? 30 * page.subPage!.length : 0)
+      setSubPage(rotate === '-rotate-90' ? page.subPage.filter((sub: any) => sub.page.length >= 30).length * 30 + 30 * page.subPage!.length : 0)
     }
   }, [rotate])
 
