@@ -1,5 +1,5 @@
 "use client"
-import { IDesign } from '@/interfaces'
+import { IDesign, IStoreData } from '@/interfaces'
 import React, { useEffect, useRef, useState } from 'react'
 import { Button, H1, H2, H3, LinkButton, P } from '../ui'
 
@@ -7,9 +7,10 @@ interface Props {
     content: IDesign
     index: number
     style?: any
+    storeData?: IStoreData
 }
 
-export const Blocks: React.FC<Props> = ({ content, index, style }) => {
+export const Blocks: React.FC<Props> = ({ content, index, style, storeData }) => {
   const [question, setQuestion] = useState(-1);
   const contentRefs = useRef<Array<HTMLDivElement | null>>([]);
   const [titleLoaded, setTitleLoaded] = useState(false);
@@ -401,7 +402,9 @@ export const Blocks: React.FC<Props> = ({ content, index, style }) => {
                         <p className="text-center" style={{ color: content.info.textColor }}>{block.description}</p>
                         {
                           block.buttonLink && block.buttonLink !== '' && block.buttonText && block.buttonText !== ''
-                            ? <LinkButton url={block.buttonLink} style={style} config='mx-auto'>{block.buttonText}</LinkButton>
+                            ? block.buttonLink === 'Abrir Whatsapp'
+                              ? <button className={`m-auto w-fit flex text-center py-2 px-6 font-medium`} style={{ backgroundColor: style.primary, color: style.button, borderRadius: style.form === 'Redondeadas' ? `${style.borderButton}px` : '' }} onClick={() => window.open(`https://wa.me/+56${storeData?.phone}?text=${block.title}`)}>{block.buttonText}</button>
+                              : <LinkButton url={block.buttonLink} style={style} config='mx-auto'>{block.buttonText}</LinkButton>
                             : ''
                         }
                       </div>

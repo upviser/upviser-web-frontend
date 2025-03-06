@@ -85,7 +85,7 @@ export default async function Page () {
                 {
                   page.design.map((content: any, index: any) => {
                     if (content.content === 'Carrusel') {
-                      return <Slider key={content.content} info={content.info} index={index} forms={forms} calls={calls} design={design} payment={payment} style={style} />
+                      return <Slider key={content.content} info={content.info} index={index} forms={forms} calls={calls} design={design} payment={payment} style={style} storeData={storeData} />
                     } else if (content.content === 'Bloque 1') {
                       return <Block1 key={content.content} content={content} index={index} forms={forms} calls={calls} design={design} payment={payment} style={style} />
                     } else if (content.content === 'Bloque 2') {
@@ -125,7 +125,7 @@ export default async function Page () {
                     } else if (content.content === 'Tabla comparativa') {
                       return <Table key={content.content} content={content} services={services} index={index} payment={payment} style={style} />
                     } else if (content.content === 'Bloques') {
-                      return <Blocks key={content.content} content={content} index={index} style={style} />
+                      return <Blocks key={content.content} content={content} index={index} style={style} storeData={storeData} />
                     } else if (content.content === 'Formulario') {
                       return <Form key={content.content} content={content} index={index} style={style} forms={forms} />
                     } else if (content.content === 'Reseñas') {

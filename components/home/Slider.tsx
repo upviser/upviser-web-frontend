@@ -7,11 +7,11 @@ import { Navigation, Pagination } from "swiper/modules"
 import Link from "next/link"
 import Image from 'next/image'
 import { Button, H1, H2, P } from "../ui"
-import { Design, ICall, IClient, IForm, IInfo, IPayment } from "@/interfaces"
+import { Design, ICall, IClient, IForm, IInfo, IPayment, IStoreData } from "@/interfaces"
 import { useEffect, useRef, useState } from "react"
 import { PopupPage } from "../design"
 
-export const Slider = ({ info, index, forms, calls, design, payment, style }: { info: IInfo, index: any, forms: IForm[], calls: ICall[], design: Design, payment: IPayment, style?: any }) => {
+export const Slider = ({ info, index, forms, calls, design, payment, style, storeData }: { info: IInfo, index: any, forms: IForm[], calls: ICall[], design: Design, payment: IPayment, style?: any, storeData?: IStoreData }) => {
 
   const [popup, setPopup] = useState({ view: 'hidden', opacity: 'opacity-0', mouse: false })
   const [content, setContent] = useState('')
@@ -177,9 +177,11 @@ export const Slider = ({ info, index, forms, calls, design, payment, style }: { 
                                         setPopup({ ...popup, view: 'flex', opacity: 'opacity-1' })
                                       }, 10);
                                     }} style={style}>{banner.button}</Button>
-                                    : banner.buttonLink === '' || banner.button === ''
-                                      ? ''
-                                      : <Link href={`${banner.buttonLink}`}><Button style={style}>{banner.button}</Button></Link>
+                                    : banner.buttonLink !== '' || banner.button !== ''
+                                      ? banner.buttonLink === 'Abrir Whatsapp'
+                                        ? <button className={`w-fit flex text-center py-2 px-6 font-medium`} style={{ backgroundColor: style.primary, color: style.button, borderRadius: style.form === 'Redondeadas' ? `${style.borderButton}px` : '' }} onClick={() => window.open(`https://wa.me/+56${storeData?.phone}`)}>{banner.button}</button>
+                                        : <Link href={`${banner.buttonLink}`}><Button style={style}>{banner.button}</Button></Link>
+                                      : ''
                                 }
                               </div>
                             )
