@@ -5,6 +5,8 @@ export interface Design {
     pages: IPage[]
     popup?: IPopupWeb
     whatsapp?: boolean
+    instagram?: boolean
+    chatView?: boolean
 }
 
 export interface IHeader {

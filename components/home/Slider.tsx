@@ -124,7 +124,7 @@ export const Slider = ({ info, index, forms, calls, design, payment, style }: { 
   return (
     <>
       <PopupPage popup={popup} setPopup={setPopup} content={content} design={design} calls={calls} forms={forms} payment={payment} />
-      <div>
+      <div className="z-0">
         <Swiper
           className={styles.mySwiper}
           slidesPerView={1}
