@@ -53,6 +53,11 @@ const nextConfig = {
         hostname: 'clinica-lug-site-cdn.b-cdn.net',
         port: '',
         pathname: '/**'
+      }, {
+        protocol: 'https',
+        hostname: 'benito-arismendi-site-cdn.b-cdn.net',
+        port: '',
+        pathname: '/**'
       }
     ]
   }
