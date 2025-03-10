@@ -171,28 +171,30 @@ export const Call = ({ calls, content, step, services, payment, storeData, index
               ? <Link ref={refLogo2} href='/' target='_blank' className={`${viewLogo2 ? 'opacity-1' : 'opacity-0 translate-y-6'} transition-all duration-500 w-fit m-auto`}><Image src={storeData.logoWhite} alt={`Logo ${storeData.name}`} width={320} height={150} className='w-44 m-auto lg:w-52' /></Link>
               : ''
         }
-        {
-          content.info.title && content.info.title !== ''
-            ? (
-              <div ref={titleRef} className={`${title ? 'opacity-1' : 'opacity-0 translate-y-6'} transition-all duration-500`}>
-                {
-                  index === 0
-                    ? <H1 text={content.info.title} color={content.info.textColor} config='text-center font-semibold' />
-                    : <H2 text={content.info.title} color={content.info.textColor} config='text-center font-semibold' />
-                }
-              </div>
-            )
-            : ''
-        }
-        {
-          content.info.description && content.info.description !== ''
-            ? (
-              <div ref={descriptionRef} className={`${description ? 'opacity-1' : 'opacity-0 translate-y-6'} transition-all duration-500`}>
-                <P text={content.info.description} color={content.info.textColor} />
-              </div>
-            )
-            : ''
-        }
+        <div className='flex flex-col gap-3'>
+          {
+            content.info.title && content.info.title !== ''
+              ? (
+                <div ref={titleRef} className={`${title ? 'opacity-1' : 'opacity-0 translate-y-6'} transition-all duration-500`}>
+                  {
+                    index === 0
+                      ? <H1 text={content.info.title} color={content.info.textColor} config='text-center font-semibold' />
+                      : <H2 text={content.info.title} color={content.info.textColor} config='text-center font-semibold' />
+                  }
+                </div>
+              )
+              : ''
+          }
+          {
+            content.info.description && content.info.description !== ''
+              ? (
+                <div ref={descriptionRef} className={`${description ? 'opacity-1' : 'opacity-0 translate-y-6'} transition-all duration-500`}>
+                  <P text={content.info.description} color={content.info.textColor} config='text-center' />
+                </div>
+              )
+              : ''
+          }
+        </div>
         <div className={`m-auto w-full`} style={{ boxShadow: style.design === 'Sombreado' ? `0px 3px 20px 3px ${style.borderColor}10` : '', borderRadius: style.form === 'Redondeadas' ? `${style.borderBlock}px` : '', border: style.design === 'Borde' ? `1px solid ${style.borderColor}` : '', color: content.info.textColor, backgroundColor: content.info.image }}>
           <div className="lg:flex">
             <div ref={ref} className="p-6 md:p-8 border-b border-black/5 lg:border-b-0 lg:border-r flex flex-col gap-8 w-full lg:w-5/12">

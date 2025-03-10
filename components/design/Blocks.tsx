@@ -373,48 +373,48 @@ export const Blocks: React.FC<Props> = ({ content, index, style, storeData }) =>
               )
               : ''
           }
-          {
-            content.info.blocks?.length
-              ? (
-                <div className='flex gap-6 justify-around flex-wrap'>
-                  {content.info.blocks?.map((block, i) => (
-                    <div
-                      key={i}
-                      ref={i === 0 ? block1Ref : i === 1 ? block2Ref : i === 2 ? block3Ref : i === 3 ? block4Ref : i === 4 ? block5Ref : i === 5 ? block6Ref : i === 6 ? block7Ref : i === 7 ? block8Ref : i === 8 ? block9Ref : i === 9 ? block10Ref : null}
-                      className={`${i === 0 ? block1Loaded ? 'opacity-1' : 'opacity-0 translate-y-6' : i === 1 ? block2Loaded ? 'opacity-1' : 'opacity-0 translate-y-6' : i === 2 ? block3Loaded ? 'opacity-1' : 'opacity-0 translate-y-6' : i === 3 ? block4Loaded ? 'opacity-1' : 'opacity-0 translate-y-6' : i === 4 ? block5Loaded ? 'opacity-1' : 'opacity-0 translate-y-6' : i === 5 ? block6Loaded ? 'opacity-1' : 'opacity-0 translate-y-6' : i === 6 ? block7Loaded ? 'opacity-1' : 'opacity-0 translate-y-6' : i === 7 ? block8Loaded ? 'opacity-1' : 'opacity-0 translate-y-6' : i === 8 ? block9Loaded ? 'opacity-1' : 'opacity-0 translate-y-6' : i === 9 ? block10Loaded ? 'opacity-1' : 'opacity-0 translate-y-6' : ''} transition-all duration-500 flex flex-col p-6 w-full max-w-96 min-h-48 lg:min-h-56`}
-                      style={{
-                        boxShadow: style.design === 'Sombreado' ? `0px 3px 20px 3px ${style.borderColor}10` : '',
-                        borderRadius: style.form === 'Redondeadas' ? `${style.borderBlock}px` : '',
-                        border: style.design === 'Borde' ? `1px solid ${style.borderColor}` : '',
-                        backgroundColor: content.info.image
-                      }}
-                    >
-                      <div className='flex flex-col gap-2 m-auto'>
-                        {block.title && block.title !== "" ? (
-                          index === 0 ? (
-                              <H2 text={block.title} color={content.info.textColor} config="text-center font-semibold" />
-                          ) : (
-                              <H3 text={block.title} color={content.info.textColor} config="text-center font-semibold" />
-                          )
-                          ) : (
-                          ""
-                        )}
-                        <p className="text-center" style={{ color: content.info.textColor }}>{block.description}</p>
-                        {
-                          block.buttonLink && block.buttonLink !== '' && block.buttonText && block.buttonText !== ''
-                            ? block.buttonLink === 'Abrir Whatsapp'
-                              ? <button className={`m-auto w-fit flex text-center py-2 px-6 font-medium`} style={{ backgroundColor: style.primary, color: style.button, borderRadius: style.form === 'Redondeadas' ? `${style.borderButton}px` : '' }} onClick={() => window.open(`https://wa.me/+56${storeData?.phone}?text=${block.title}`)}>{block.buttonText}</button>
-                              : <LinkButton url={block.buttonLink} style={style} config='mx-auto'>{block.buttonText}</LinkButton>
-                            : ''
-                        }
-                      </div>
-                    </div>
-                  ))}
-                </div>
-              )
-              : ''
-          }
         </div>
+        {
+          content.info.blocks?.length
+            ? (
+              <div className='flex gap-6 justify-around flex-wrap'>
+                {content.info.blocks?.map((block, i) => (
+                  <div
+                    key={i}
+                    ref={i === 0 ? block1Ref : i === 1 ? block2Ref : i === 2 ? block3Ref : i === 3 ? block4Ref : i === 4 ? block5Ref : i === 5 ? block6Ref : i === 6 ? block7Ref : i === 7 ? block8Ref : i === 8 ? block9Ref : i === 9 ? block10Ref : null}
+                    className={`${i === 0 ? block1Loaded ? 'opacity-1' : 'opacity-0 translate-y-6' : i === 1 ? block2Loaded ? 'opacity-1' : 'opacity-0 translate-y-6' : i === 2 ? block3Loaded ? 'opacity-1' : 'opacity-0 translate-y-6' : i === 3 ? block4Loaded ? 'opacity-1' : 'opacity-0 translate-y-6' : i === 4 ? block5Loaded ? 'opacity-1' : 'opacity-0 translate-y-6' : i === 5 ? block6Loaded ? 'opacity-1' : 'opacity-0 translate-y-6' : i === 6 ? block7Loaded ? 'opacity-1' : 'opacity-0 translate-y-6' : i === 7 ? block8Loaded ? 'opacity-1' : 'opacity-0 translate-y-6' : i === 8 ? block9Loaded ? 'opacity-1' : 'opacity-0 translate-y-6' : i === 9 ? block10Loaded ? 'opacity-1' : 'opacity-0 translate-y-6' : ''} transition-all duration-500 flex flex-col p-6 w-full max-w-96 min-h-48 lg:min-h-56`}
+                    style={{
+                      boxShadow: style.design === 'Sombreado' ? `0px 3px 20px 3px ${style.borderColor}10` : '',
+                      borderRadius: style.form === 'Redondeadas' ? `${style.borderBlock}px` : '',
+                      border: style.design === 'Borde' ? `1px solid ${style.borderColor}` : '',
+                      backgroundColor: content.info.image
+                    }}
+                  >
+                    <div className='flex flex-col gap-2 m-auto'>
+                      {block.title && block.title !== "" ? (
+                        index === 0 ? (
+                            <H2 text={block.title} color={content.info.textColor} config="text-center font-semibold" />
+                        ) : (
+                            <H3 text={block.title} color={content.info.textColor} config="text-center font-semibold" />
+                        )
+                        ) : (
+                        ""
+                      )}
+                      <p className="text-center" style={{ color: content.info.textColor }}>{block.description}</p>
+                      {
+                        block.buttonLink && block.buttonLink !== '' && block.buttonText && block.buttonText !== ''
+                          ? block.buttonLink === 'Abrir Whatsapp'
+                            ? <button className={`m-auto w-fit flex text-center py-2 px-6 font-medium`} style={{ backgroundColor: style.primary, color: style.button, borderRadius: style.form === 'Redondeadas' ? `${style.borderButton}px` : '' }} onClick={() => window.open(`https://wa.me/+56${storeData?.phone}?text=${block.title}`)}>{block.buttonText}</button>
+                            : <LinkButton url={block.buttonLink} style={style} config='mx-auto'>{block.buttonText}</LinkButton>
+                          : ''
+                      }
+                    </div>
+                  </div>
+                ))}
+              </div>
+            )
+            : ''
+        }
       </div>
     </div>
   );

@@ -27,13 +27,13 @@ export const SubPage: React.FC<Props> = ({ page, setMenu, setIndex, design, styl
 
   useEffect(() => {
     if (subPageRef.current) {
-      setSubPage(rotate === '-rotate-90' ? page.subPage.filter((sub: any) => sub.page.length >= 30).length * 30 + 30 * page.subPage!.length : 0)
+      setSubPage(rotate === '-rotate-90' ? page.subPage.filter((sub: any) => sub.page.length >= 30).length * 31 + 31 * page.subPage!.length : 0)
     }
   }, [rotate])
 
   return (
     <>
-      <div key={page.slug} className={`${index === 0 ? element1 ? 'opacity-1' : 'opacity-0 translate-y-4' : index === 1 ? element2 ? 'opacity-1' : 'opacity-0 translate-y-4' : index === 2 ? element3 ? 'opacity-1' : 'opacity-0 translate-y-4' : index === 3 ? element4 ? 'opacity-1' : 'opacity-0 translate-y-4' : index === 4 ? element5 ? 'opacity-1' : 'opacity-0 translate-y-4' : index === 5 ? element6 ? 'opacity-1' : 'opacity-0 translate-y-4' : index === 6 ? element7 ? 'opacity-1' : 'opacity-0 translate-y-4' : ''} transition-all duration-500 font-medium mb-4 flex pb-2 min-w-[250px] border-b`} style={{ borderBottom: `1px solid ${style.borderColor}` }}><Link style={{ color: design.header.textColor }} href={`/${page.slug}`} onClick={() => {
+      <div key={page.slug} className={`${index === 0 ? element1 ? 'opacity-1' : 'opacity-0 translate-y-4' : index === 1 ? element2 ? 'opacity-1' : 'opacity-0 translate-y-4' : index === 2 ? element3 ? 'opacity-1' : 'opacity-0 translate-y-4' : index === 3 ? element4 ? 'opacity-1' : 'opacity-0 translate-y-4' : index === 4 ? element5 ? 'opacity-1' : 'opacity-0 translate-y-4' : index === 5 ? element6 ? 'opacity-1' : 'opacity-0 translate-y-4' : index === 6 ? element7 ? 'opacity-1' : 'opacity-0 translate-y-4' : ''} transition-all duration-500 font-medium mb-4 flex pb-2 min-w-[250px] border-b`} style={{ borderBottom: `1px solid ${style.design === 'Borde' ? style.borderColor : `${style.borderColor}20`}` }}><Link style={{ color: design.header.textColor }} href={`/${page.slug}`} onClick={() => {
         setMenu('-ml-[350px]')
         setTimeout(() => {
           setIndex('hidden')
