@@ -58,6 +58,11 @@ const nextConfig = {
         hostname: 'benito-arismendi-site-cdn.b-cdn.net',
         port: '',
         pathname: '/**'
+      }, {
+        protocol: 'https',
+        hostname: 'clinica-ayr-site-cdn.b-cdn.net',
+        port: '',
+        pathname: '/**'
       }
     ]
   }
