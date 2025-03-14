@@ -302,7 +302,7 @@ export const Calendar: React.FC<CalendarProps> = ({ newClient, setNewClient, tag
         return
       }
       let res: any
-      if (pathname !== '/') {
+      if (pathname !== '/' && !pathname.includes('/llamadas/')) {
         res = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/funnel-by-step${pathname}`)
       }
       let respo

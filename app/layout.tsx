@@ -13,10 +13,9 @@ const myFont = localFont({
 
 export const metadata: Metadata = {
   title: {
-    default: 'Upvisor',
+    default: `${process.env.NEXT_PUBLIC_NAME}`,
     template: `%s | ${process.env.NEXT_PUBLIC_NAME}`
   },
-  description: "Desarrollo de sitios webs.",
   twitter: {
     card: 'summary_large_image'
   }
