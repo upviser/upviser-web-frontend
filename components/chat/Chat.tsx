@@ -24,7 +24,7 @@ export const Chat: React.FC<Props> = ({ style, storeData, design, viewChat }) =>
   const [chatView, setChatView] = useState(false)
   const [chatOpacity, setChatOpacity] = useState('-mb-[200px]')
   const [chat, setChat] = useState<IMessage[]>([{
-    response: `¡Hola! Te damos la bienvenida a ${storeData?.name}, mi nombre es ${storeData?.nameContact}, ¿En que te puedo ayudar?`,
+    response: `¡Hola! Te damos la bienvenida a ${storeData?.name}${storeData?.nameContact && storeData?.nameContact !== '' ? `, mi nombre es ${storeData?.nameContact} ` : ''} ¿En que te puedo ayudar?`,
     adminView: false,
     userView: false
   }])
@@ -112,7 +112,7 @@ export const Chat: React.FC<Props> = ({ style, storeData, design, viewChat }) =>
 
   return (
     <>
-        <div className={`${chatOpacity} ${chatView ? 'flex' : 'hidden'} ${chatOpacity === '-mb-[200px]' ? 'opacity-0' : 'opacity-1'} fixed bottom-24 right-4 z-50 h-[480px] ml-3 justify-between flex-col gap-3 transition-all duration-500 w-80 sm:w-96 sm:h-[600px] sm:gap-4`} style={{ borderRadius: `${style.borderBlock}px`, border: style.design === 'Borde' ? `1px solid ${style.borderColor}` : '', boxShadow: style.design === 'Sobreado' ? `0px 3px 20px 3px ${style.borderColor}10` : '', backgroundColor: design.chat?.bgColor && design.chat.bgColor !== '' ? design.chat.bgColor : '#ffffff' }}>
+        <div className={`${chatOpacity} ${chatView ? 'flex' : 'hidden'} ${chatOpacity === '-mb-[200px]' ? 'opacity-0' : 'opacity-1'} fixed bottom-24 right-4 z-50 h-[480px] ml-3 justify-between flex-col gap-3 transition-all duration-500 w-80 sm:w-96 sm:h-[600px] sm:gap-4`} style={{ borderRadius: `${style.borderBlock}px`, boxShadow: `0px 3px 20px 3px #11111120`, backgroundColor: design.chat?.bgColor && design.chat.bgColor !== '' ? design.chat.bgColor : '#ffffff' }}>
           <div className='h-28 w-full flex p-4' style={{ backgroundColor: style.primary, borderTopLeftRadius: `${style.borderBlock}px`, borderTopRightRadius: `${style.borderBlock}px` }}>
             <span className='text-white mt-auto mb-auto text-xl'>Chat</span>
           </div>
@@ -146,7 +146,7 @@ export const Chat: React.FC<Props> = ({ style, storeData, design, viewChat }) =>
           </div>
           <form className='flex gap-2 pr-3 pl-3 pb-3 sm:pr-4 sm:pl-4 sm:pb-4'>
             <Input inputChange={inputChange} value={newMessage} type={'text'} placeholder={'Mensaje'} style={style} />
-            <button type='submit' onClick={submitMessage} className='text-white w-28 rounded-xl dark:bg-neutral-700 transition-colors duration-200 hover:bg-transparent' style={{ backgroundColor: style.primary }}>Enviar</button>
+            <button type='submit' onClick={submitMessage} className='text-white w-28 dark:bg-neutral-700 transition-colors duration-200 hover:bg-transparent' style={{ backgroundColor: style.primary, borderRadius: style?.form === 'Redondeadas' ? `${style?.borderButton}px` : '' }}>Enviar</button>
           </form>
         </div>
         <button onClick={async (e: any) => {
