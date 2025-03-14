@@ -331,7 +331,7 @@ export const Calendar: React.FC<CalendarProps> = ({ newClient, setNewClient, tag
           ? scheduled
             ? (
               <div className='flex flex-col gap-4 m-auto text-center'>
-                <p className='text-xl font-medium'>Llamada agendada exitosamente</p>
+                <p className='text-xl font-medium'>Se ha agendado exitosamente</p>
                 <p>{call.message}</p>
               </div>
             )
@@ -641,7 +641,7 @@ export const Calendar: React.FC<CalendarProps> = ({ newClient, setNewClient, tag
         <button 
           key={i} 
           disabled={!isAvailable} 
-          className={`w-12 h-12 m-auto flex rounded-full transition-color duration-150`}
+          className={`w-10 h-10 sm:w-12 sm:h-12 m-auto flex rounded-full transition-color duration-150`}
           style={{ backgroundColor: isAvailable ? (isSelected ? style.primary : content.info.textColor && content.info.textColor !== '' ? `${content.info.textColor}20` : '#11111120') : '', color: isAvailable ? (isSelected ? style.button : `${content.info.textColor}`) : `${content.info.textColor}50` }}
           onClick={() => handleDateTimeSelect(currentDate)}
         >
