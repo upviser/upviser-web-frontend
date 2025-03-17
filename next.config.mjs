@@ -35,7 +35,7 @@ const nextConfig = {
         pathname: '/**'
       }, {
         protocol: 'https',
-        hostname: 'clinica-ayr-site-cdn.b-cdn.net',
+        hostname: 'clinica-ayr.b-cdn.net',
         port: '',
         pathname: '/**'
       }
