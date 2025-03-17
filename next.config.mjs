@@ -10,31 +10,6 @@ const nextConfig = {
         pathname: '/embed/**'
       }, {
         protocol: 'https',
-        hostname: 'imagenes-sitio-web-upvisor.b-cdn.net',
-        port: '',
-        pathname: '/**'
-      }, {
-        protocol: 'https',
-        hostname: 'imagenes-upvisor-web.b-cdn.net',
-        port: '',
-        pathname: '/**'
-      }, {
-        protocol: 'https',
-        hostname: 'cdn-web-upvisor.b-cdn.net',
-        port: '',
-        pathname: '/**'
-      }, {
-        protocol: 'https',
-        hostname: 'upvisor-site-cdn.b-cdn.net',
-        port: '',
-        pathname: '/**'
-      }, {
-        protocol: 'https',
-        hostname: 'upvisor-web-cdn.b-cdn.net',
-        port: '',
-        pathname: '/**'
-      }, {
-        protocol: 'https',
         hostname: 'salud-en-casa-site-cdn.b-cdn.net',
         port: '',
         pathname: '/**'
@@ -45,7 +20,7 @@ const nextConfig = {
         pathname: '/**'
       }, {
         protocol: 'https',
-        hostname: 'clinica-marbella-site-cdn.b-cdn.net',
+        hostname: 'clinica-marbella.b-cdn.net',
         port: '',
         pathname: '/**'
       }, {
