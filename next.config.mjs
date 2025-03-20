@@ -38,6 +38,11 @@ const nextConfig = {
         hostname: 'clinica-ayr.b-cdn.net',
         port: '',
         pathname: '/**'
+      }, {
+        protocol: 'https',
+        hostname: 'clinica-dent.b-cdn.net',
+        port: '',
+        pathname: '/**'
       }
     ]
   }
