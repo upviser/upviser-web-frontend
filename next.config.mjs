@@ -43,6 +43,11 @@ const nextConfig = {
         hostname: 'clinica-dent.b-cdn.net',
         port: '',
         pathname: '/**'
+      }, {
+        protocol: 'https',
+        hostname: 'upvisor.b-cdn.net',
+        port: '',
+        pathname: '/**'
       }
     ]
   }
