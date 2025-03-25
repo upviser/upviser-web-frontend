@@ -4,6 +4,7 @@ export interface IStoreData {
     nameContact?: string
     email: string
     phone?: string
+    mapsLink?: string
     address?: string
     departament?: string
     region?: string

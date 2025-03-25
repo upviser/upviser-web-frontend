@@ -1,5 +1,5 @@
 import { ContactPage } from "@/components/contact"
-import { Block1, Block2, Block3, Block4, Block5, Block7, Blocks, Call, Calls, Checkout, Faq, Form, Lead1, Lead2, Lead3, Plans, Reviews, Table, Video } from "@/components/design"
+import { Block1, Block2, Block3, Block4, Block5, Block7, Blocks, Call, Calls, Checkout, Faq, Form, Lead1, Lead2, Lead3, Plans, Reviews, SliderImages, Table, Video } from "@/components/design"
 import { Slider } from "@/components/home"
 import { Subscribe } from "@/components/ui"
 
@@ -133,6 +133,8 @@ export default async function Page({ params }: { params: { page: string } }) {
             return <Form key={content.content} content={content} index={index} style={style} forms={forms} />
           } else if (content.content === 'Reseñas') {
             return <Reviews key={content.content} content={content} index={index} />
+          } else if (content.content === 'Carrusel de imagenes') {
+            return <SliderImages key={content.content} content={content} index={index} style={style} />
           }
         })
       }

@@ -68,96 +68,95 @@ export const Calendar: React.FC<CalendarProps> = ({ newClient, setNewClient, tag
   }
 
   const getDates = async () => {
-      try {
-          const currentDate = new Date(); // Obtener la fecha y hora actual
-          const currentHour = currentDate.getHours(); // Obtener la hora actual
-          const currentMinutes = currentDate.getMinutes(); // Obtener los minutos actuales
-    
-          // Obtener las fechas ya agendadas
-          const meetingsRes = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/meetings`);
-          const meetings = meetingsRes.data.map((meeting: any) => new Date(meeting.date));
-    
-          const res = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/calendar/${call.calendar}`);
-          const datesWithConvertedDates = res.data.dates.map((dateItem: any) => ({
-              ...dateItem,
-              date: new Date(dateItem.date)
-          }));
-    
-          // Función para generar intervalos de 15 minutos como cadenas de texto
-          const generateTimeIntervals = (hours: number[]) => {
-              const intervals: any = [];
-              
-              // Variable para llevar el control de las horas y minutos acumulados
-              let currentTime = hours[0] * 60; // Convierte la primera hora a minutos (por ejemplo, 10:00 => 600 minutos)
-              
-              // Recorrer todas las horas disponibles
-              hours.forEach(hour => {
-                  // Mientras la hora sea menor a 24 horas
-                  while (Math.floor(currentTime / 60) < 24) {
-                      const currentHour = Math.floor(currentTime / 60); // Obtener la hora actual
-                      const currentMinutes = currentTime % 60; // Obtener los minutos actuales
-                      
-                      // Asegurarse de que la hora está dentro de las horas proporcionadas
-                      if (hours.includes(currentHour)) {
-                          intervals.push(`${currentHour}:${currentMinutes.toString().padStart(2, '0')}`);
-                      }
-                      
-                      currentTime += parseInt(call.duration); // Sumar la duración para el siguiente intervalo
-                  }
-              });
-              
-              return intervals;
-          };
-    
-          // Filtrar las fechas pasadas y las horas pasadas para los días pasados
-          const filteredDates = datesWithConvertedDates.map((dateData: any) => {
-              if (dateData.date < currentDate.setHours(0, 0, 0, 0)) return null; // Eliminar fechas pasadas
-              if (dateData.date.getDate() === currentDate.getDate()) {
-                  // Si la fecha es la actual, filtrar las horas pasadas
-                  const startHour = currentHour < 2 ? 0 : currentHour + 2; // Si son las 2:00 o más tarde, comenzar desde 2 horas después de la hora actual
-                  const filteredHours = dateData.hours.filter((hour: number) => hour >= startHour);
-                  const intervals = generateTimeIntervals(filteredHours);
-                  const filteredIntervals = intervals.filter((interval: any) => {
-                      const [hour, minutes] = interval.split(':').map(Number);
-                      if (hour === currentHour) {
-                          return minutes > currentMinutes;
-                      }
-                      return true;
-                  });
-                  return {
-                      ...dateData,
-                      hours: filteredIntervals
-                  };
-              }
-              const intervals = generateTimeIntervals(dateData.hours);
-              return {
-                  ...dateData,
-                  hours: intervals
-              };
-          }).filter((dateData: any) => dateData !== null); // Eliminar fechas pasadas
-    
-          // Filtrar horas ya agendadas para las fechas disponibles
-          const filteredAvailableDates = filteredDates.map((dateData: any) => {
-              const filteredHours = dateData.hours.filter((interval: string) => {
-                  const [hour, minutes] = interval.split(':').map(Number);
-                  const meetingDate = new Date(dateData.date);
-                  meetingDate.setHours(hour, minutes);
-                  // Verificar si la hora está agendada
-                  return !meetings.some((meetingDateItem: Date) => {
-                      return meetingDateItem.getTime() === meetingDate.getTime();
-                  });
-              });
-              return {
-                  ...dateData,
-                  hours: filteredHours
-              };
-          });
-    
-          setAvailableDates(filteredAvailableDates);
-      } catch (error) {
-          console.error('Error fetching data:', error);
-      }
-  };
+    try {
+        const currentDate = new Date(); 
+        const currentHour = currentDate.getHours(); 
+        const currentMinutes = currentDate.getMinutes(); 
+
+        const meetingsRes = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/meetings`);
+        const meetings = meetingsRes.data.map((meeting: any) => new Date(meeting.date));
+
+        const res = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/calendar/${call.calendar}`);
+        const datesWithConvertedDates = res.data.dates.map((dateItem: any) => ({
+            ...dateItem,
+            date: new Date(dateItem.date)
+        }));
+
+        // Función para convertir "45 minutos" a 45 (minutos)
+        const parseDuration = (timeString: string) => {
+            const match = timeString.match(/(\d+)/);
+            return match ? parseInt(match[1], 10) : 15; // Default 15 minutos si no se encuentra número
+        };
+
+        // Determinar la duración que se usará
+        const intervalDuration = call.intervals && call.intervals !== '' ? parseDuration(call.intervals) : parseDuration(call.duration);
+
+        // Función para generar intervalos de tiempo
+        const generateTimeIntervals = (hours: number[]) => {
+            const intervals: any = [];
+            let currentTime = hours[0] * 60; 
+
+            hours.forEach(hour => {
+                while (Math.floor(currentTime / 60) < 24) {
+                    const currentHour = Math.floor(currentTime / 60);
+                    const currentMinutes = currentTime % 60;
+
+                    if (hours.includes(currentHour)) {
+                        intervals.push(`${currentHour}:${currentMinutes.toString().padStart(2, '0')}`);
+                    }
+                    
+                    currentTime += intervalDuration; // Usa intervalDuration en lugar de duration
+                }
+            });
+
+            return intervals;
+        };
+
+        // Filtrar fechas pasadas y generar intervalos de horas disponibles
+        const filteredDates = datesWithConvertedDates.map((dateData: any) => {
+            if (dateData.date < currentDate.setHours(0, 0, 0, 0)) return null; 
+
+            if (dateData.date.getDate() === currentDate.getDate()) {
+                const startHour = currentHour < 2 ? 0 : currentHour + 2;
+                const filteredHours = dateData.hours.filter((hour: number) => hour >= startHour);
+                const intervals = generateTimeIntervals(filteredHours);
+                const filteredIntervals = intervals.filter((interval: any) => {
+                    const [hour, minutes] = interval.split(':').map(Number);
+                    return hour > currentHour || (hour === currentHour && minutes > currentMinutes);
+                });
+                return {
+                    ...dateData,
+                    hours: filteredIntervals
+                };
+            }
+
+            return {
+                ...dateData,
+                hours: generateTimeIntervals(dateData.hours)
+            };
+        }).filter((dateData: any) => dateData !== null);
+
+        // Filtrar horas ya agendadas
+        const filteredAvailableDates = filteredDates.map((dateData: any) => {
+            const filteredHours = dateData.hours.filter((interval: string) => {
+                const [hour, minutes] = interval.split(':').map(Number);
+                const meetingDate = new Date(dateData.date);
+                meetingDate.setHours(hour, minutes);
+
+                return !meetings.some((meetingDateItem: Date) => meetingDateItem.getTime() === meetingDate.getTime());
+            });
+
+            return {
+                ...dateData,
+                hours: filteredHours
+            };
+        });
+
+        setAvailableDates(filteredAvailableDates);
+    } catch (error) {
+        console.error('Error fetching data:', error);
+    }
+};
 
   useEffect(() => {
     getDates();
