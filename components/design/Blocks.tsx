@@ -406,7 +406,7 @@ export const Blocks: React.FC<Props> = ({ content, index, style, storeData }) =>
                         ) : (
                         ""
                       )}
-                      <p className="text-center" style={{ color: content.info.textColor }}>{block.description}</p>
+                      <p className='text-center' style={{ color: content.info.textColor }}>{block.description}</p>
                       {
                         block.buttonLink && block.buttonLink !== '' && block.buttonText && block.buttonText !== ''
                           ? block.buttonLink === 'Abrir Whatsapp'
