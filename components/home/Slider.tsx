@@ -147,8 +147,8 @@ export const Slider = ({ info, index, forms, calls, design, payment, style, stor
                               <div ref={titleRef} className={`${titleLoaded ? 'opacity-1' : 'opacity-0 translate-y-6'} transition-all duration-500`}>
                                 {
                                   index === 0
-                                    ? <H1 config="text-white font-semibold" text={banner.title} />
-                                    : <H2 config="text-white font-semibold" text={banner.title} />
+                                    ? <H1 config={`text-white font-semibold ${banner.type === 'Izquierda' ? '' : 'text-center'}`} text={banner.title} />
+                                    : <H2 config={`text-white font-semibold ${banner.type === 'Izquierda' ? '' : 'text-center'}`} text={banner.title} />
                                 }
                               </div>
                             )
@@ -158,7 +158,7 @@ export const Slider = ({ info, index, forms, calls, design, payment, style, stor
                           banner.description && banner.description !== ''
                             ? (
                               <div ref={descriptionRef} className={`${descriptionLoaded ? 'opacity-1' : 'opacity-0 translate-y-6'} transition-all duration-500`}>
-                                <P text={banner.description} config="text-white" />
+                                <P text={banner.description} config={`text-white ${banner.type === 'Izquierda' ? '' : 'text-center'}`} />
                               </div>
                             )
                             : ''
@@ -166,7 +166,7 @@ export const Slider = ({ info, index, forms, calls, design, payment, style, stor
                         {
                           (banner.buttonLink === 'Abrir popup' || calls.find(call => call._id === banner.buttonLink) || forms.find(form => form._id === banner.buttonLink)) || (banner.buttonLink !== '' || banner.button !== '')
                             ? (
-                              <div ref={buttonRef} className={`${buttonLoaded ? 'opacity-1' : 'opacity-0 translate-y-6'} transition-all duration-500`}>
+                              <div ref={buttonRef} className={`${buttonLoaded ? 'opacity-1' : 'opacity-0 translate-y-6'} transition-all duration-500 ${banner.type === 'Izquierda' ? '' : 'm-auto'}`}>
                                 {
                                   banner.buttonLink === 'Abrir popup' || calls.find(call => call._id === banner.buttonLink) || forms.find(form => form._id === banner.buttonLink)
                                     ? <Button action={(e: any) => {

@@ -45,6 +45,11 @@ const nextConfig = {
         pathname: '/**'
       }, {
         protocol: 'https',
+        hostname: 'kinesiologia-fvaras.b-cdn.net',
+        port: '',
+        pathname: '/**'
+      }, {
+        protocol: 'https',
         hostname: 'upvisor.b-cdn.net',
         port: '',
         pathname: '/**'

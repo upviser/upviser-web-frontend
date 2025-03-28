@@ -2,6 +2,7 @@
 import { IDesign, IStoreData } from '@/interfaces'
 import React, { useEffect, useRef, useState } from 'react'
 import { Button, H1, H2, H3, LinkButton, P } from '../ui'
+import Image from 'next/image'
 
 interface Props {
     content: IDesign
@@ -391,6 +392,11 @@ export const Blocks: React.FC<Props> = ({ content, index, style, storeData }) =>
                     }}
                   >
                     <div className='flex flex-col gap-2 m-auto'>
+                      {
+                        block.image && block.image !== ''
+                          ? <Image className='h-52' src={block.image} alt={`Imagen del bloque de ${block.title}`} width={500} height={400} style={{ boxShadow: style.design === 'Sombreado' ? `0px 3px 20px 3px ${style.borderColor}10` : '', borderRadius: style.form === 'Redondeadas' ? `${style.borderBlock}px` : '', border: style.design === 'Borde' ? `1px solid ${style.borderColor}` : '' }} />
+                          : ''
+                      }
                       {block.title && block.title !== "" ? (
                         index === 0 ? (
                             <H2 text={block.title} color={content.info.textColor} config="text-center font-semibold" />

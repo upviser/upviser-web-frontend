@@ -77,7 +77,7 @@ export interface IInfoService {
     background?: string
     textColor?: string
     faq?: [{ question?: string, response?: string }]
-    blocks?: [{ title?: string, description?: string, buttonText?: string, buttonLink?: string }]
+    blocks?: [{ title?: string, description?: string, buttonText?: string, buttonLink?: string, image?: string }]
     reviews?: [{ review?: string, stars?: string, name?: string }]
     form?: { type: string, text:  string, name: string, data: string, datas?: string[] }[]
 }
