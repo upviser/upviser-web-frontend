@@ -418,6 +418,9 @@ export const SliderImages = ({ content, index, style, storeData }: { content: ID
                 clickable: true,
                 }}
                 modules={[Pagination]}
+                breakpoints={{
+                  640: { slidesPerView: 2 }
+                }}
               >
                 {
                   content.info.faq?.map((faq, indn) => (

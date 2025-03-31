@@ -10,42 +10,27 @@ const nextConfig = {
         pathname: '/embed/**'
       }, {
         protocol: 'https',
-        hostname: 'salud-en-casa.b-cdn.net',
+        hostname: 'salud-casa.b-cdn.net',
         port: '',
         pathname: '/**'
       }, {
         protocol: 'https',
-        hostname: 'clinic-pie-site-cdn.b-cdn.net',
+        hostname: 'marbella-clinica.b-cdn.net',
         port: '',
         pathname: '/**'
       }, {
         protocol: 'https',
-        hostname: 'clinica-marbella.b-cdn.net',
+        hostname: 'ayr-clinica.b-cdn.net',
         port: '',
         pathname: '/**'
       }, {
         protocol: 'https',
-        hostname: 'clinica-lug-site-cdn.b-cdn.net',
+        hostname: 'dent-clinica.b-cdn.net',
         port: '',
         pathname: '/**'
       }, {
         protocol: 'https',
-        hostname: 'benito-arismendi-site-cdn.b-cdn.net',
-        port: '',
-        pathname: '/**'
-      }, {
-        protocol: 'https',
-        hostname: 'clinica-ayr.b-cdn.net',
-        port: '',
-        pathname: '/**'
-      }, {
-        protocol: 'https',
-        hostname: 'clinica-dent.b-cdn.net',
-        port: '',
-        pathname: '/**'
-      }, {
-        protocol: 'https',
-        hostname: 'kinesiologia-fvaras.b-cdn.net',
+        hostname: 'fvaras-kinesiologia.b-cdn.net',
         port: '',
         pathname: '/**'
       }, {
