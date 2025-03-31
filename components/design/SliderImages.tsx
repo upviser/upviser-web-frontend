@@ -412,14 +412,15 @@ export const SliderImages = ({ content, index, style, storeData }: { content: ID
             }
             <div>
               <Swiper
-                slidesPerView={3}
+                slidesPerView={1}
                 spaceBetween={30}
                 pagination={{
                 clickable: true,
                 }}
                 modules={[Pagination]}
                 breakpoints={{
-                  640: { slidesPerView: 2 }
+                  460: { slidesPerView: 2 },
+                  880: { slidesPerView: 3 }
                 }}
               >
                 {
