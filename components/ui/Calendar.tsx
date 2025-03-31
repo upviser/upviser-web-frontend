@@ -165,7 +165,8 @@ export const Calendar: React.FC<CalendarProps> = ({ newClient, setNewClient, tag
   const handleChangeMonth = (increment: number): void => {
     setDate(prevDate => {
       const newDate = new Date(prevDate);
-      newDate.setMonth(prevDate.getMonth() + increment);
+      newDate.setDate(1); // Fijamos siempre el día 1 para evitar desbordamientos
+      newDate.setMonth(newDate.getMonth() + increment);
       return newDate;
     });
   };
