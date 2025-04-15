@@ -47,7 +47,7 @@ export const AllNavbar: React.FC<PropsWithChildren<Props>> = ({ children, design
 
   const popupRef = useRef<HTMLDivElement | null>(null);
 
-  const pathname = usePathname()
+  const pathname = decodeURIComponent(usePathname())
   const router = useRouter()
 
   useEffect(() => {
