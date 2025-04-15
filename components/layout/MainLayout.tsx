@@ -71,12 +71,10 @@ export default async function MainLayout({ children }: { children: React.ReactNo
 
   const styleData = fetchStyle()
 
-  const integrationsData = fetchIntegrations()
-
-  const [design, storeData, funnels, politics, calls, forms, payment, services, style, integrations] = await Promise.all([designData, storeDataData, funnelsData, politicsData, callsData, formsData, paymentData, servicesData, styleData, integrationsData])
+  const [design, storeData, funnels, politics, calls, forms, payment, services, style] = await Promise.all([designData, storeDataData, funnelsData, politicsData, callsData, formsData, paymentData, servicesData, styleData])
   
   return (
-    <AllNavbar design={design} storeData={storeData} funnels={funnels} politics={politics} calls={calls} forms={forms} payment={payment} services={services} style={style} integrations={integrations}>
+    <AllNavbar design={design} storeData={storeData} funnels={funnels} politics={politics} calls={calls} forms={forms} payment={payment} services={services} style={style}>
       { children }
     </AllNavbar>
   )
