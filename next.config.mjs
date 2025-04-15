@@ -20,22 +20,32 @@ const nextConfig = {
         pathname: '/**'
       }, {
         protocol: 'https',
-        hostname: 'ayr-clinica.b-cdn.net',
-        port: '',
-        pathname: '/**'
-      }, {
-        protocol: 'https',
         hostname: 'dent-clinica.b-cdn.net',
         port: '',
         pathname: '/**'
       }, {
         protocol: 'https',
-        hostname: 'fvaras-kinesiologia.b-cdn.net',
+        hostname: 'upvisor-website.b-cdn.net',
         port: '',
         pathname: '/**'
       }, {
         protocol: 'https',
-        hostname: 'upvisor-website.b-cdn.net',
+        hostname: 'salud-en-casa-2.b-cdn.net',
+        port: '',
+        pathname: '/**'
+      }, {
+        protocol: 'https',
+        hostname: 'clinica-dent-2.b-cdn.net',
+        port: '',
+        pathname: '/**'
+      }, {
+        protocol: 'https',
+        hostname: 'clinica-marbella-2.b-cdn.net',
+        port: '',
+        pathname: '/**'
+      }, {
+        protocol: 'https',
+        hostname: 'upvisor-site.b-cdn.net',
         port: '',
         pathname: '/**'
       }
