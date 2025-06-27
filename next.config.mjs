@@ -20,7 +20,7 @@ const nextConfig = {
         pathname: '/**'
       }, {
         protocol: 'https',
-        hostname: 'dent-clinica.b-cdn.net',
+        hostname: 'clinica-dental-dent.b-cdn.net',
         port: '',
         pathname: '/**'
       }, {
@@ -31,11 +31,6 @@ const nextConfig = {
       }, {
         protocol: 'https',
         hostname: 'salud-en-casa-2.b-cdn.net',
-        port: '',
-        pathname: '/**'
-      }, {
-        protocol: 'https',
-        hostname: 'clinica-dent-2.b-cdn.net',
         port: '',
         pathname: '/**'
       }, {
