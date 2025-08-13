@@ -26,6 +26,7 @@ export const Blocks: React.FC<Props> = ({ content, index, style, storeData }) =>
   const [block8Loaded, setBlock8Loaded] = useState(false);
   const [block9Loaded, setBlock9Loaded] = useState(false);
   const [block10Loaded, setBlock10Loaded] = useState(false);
+  const [popup, setPopup] = useState({ view: 'hidden', opacity: 'opacity-0' })
 
   const titleRef = useRef(null);
   const descriptionRef = useRef(null);
@@ -39,6 +40,7 @@ export const Blocks: React.FC<Props> = ({ content, index, style, storeData }) =>
   const block8Ref = useRef(null);
   const block9Ref = useRef(null);
   const block10Ref = useRef(null);
+  const popupRef = useRef<HTMLDivElement | null>(null);
 
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -337,91 +339,123 @@ export const Blocks: React.FC<Props> = ({ content, index, style, storeData }) =>
     return "0px";
   };
 
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (popupRef.current && !popupRef.current.contains(event.target as Node) && popup.view === 'flex') {
+        setPopup({ ...popup, view: 'flex', opacity: 'opacity-0' })
+        setTimeout(() => {
+          setPopup({ ...popup, view: 'hidden', opacity: 'opacity-0' })
+        }, 200)
+      }
+    };
+
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, [popup, setPopup]);
+
   return (
-    <div
-      className={`py-10 md:py-20 px-4 m-auto w-full flex`}
-      style={{
-        background: `${
-          content.info.typeBackground === "Degradado"
-            ? content.info.background
-            : content.info.typeBackground === "Color"
-            ? content.info.background
-            : ""
-        }`,
-      }}
-    >
-      <div className='flex flex-col gap-8 w-full max-w-[1280px] m-auto'>
-        <div className="flex flex-col gap-3">
+    <>
+      <div className={`${popup.view} ${popup.opacity} transition-opacity duration-200 w-full h-full fixed bg-black/30 flex z-50 px-4 top-0`}>
+        <div ref={popupRef} className={`${popup.opacity === 'opacity-1' ? 'scale-1' : 'scale-90'} max-w-[800px] transition-transform duration-200 w-full p-6 rounded-xl h-[600px] overflow-y-auto bg-white m-auto flex flex-col gap-4`} style={{ boxShadow: '0px 3px 20px 3px #11111120' }}>
+          <iframe src={`https://www.doctoralia.cl/booking/seleccionar-fecha/109115/131098/${new Date()}/628849`} className='h-full' />
+        </div>
+      </div>
+      <div
+        className={`py-10 md:py-20 px-4 m-auto w-full flex`}
+        style={{
+          background: `${
+            content.info.typeBackground === "Degradado"
+              ? content.info.background
+              : content.info.typeBackground === "Color"
+              ? content.info.background
+              : ""
+          }`,
+        }}
+      >
+        <div className='flex flex-col gap-8 w-full max-w-[1280px] m-auto'>
+          <div className="flex flex-col gap-3">
+            {
+              content.info.title && content.info.title !== ''
+                ? (
+                  <div ref={titleRef} className={`${titleLoaded ? 'opacity-1' : 'opacity-0 translate-y-6'} transition-all duration-500`}>
+                    {
+                      index === 0
+                        ? <H1 text={content.info.title} color={content.info.textColor} config='text-center font-semibold' />
+                        : <H2 text={content.info.title} color={content.info.textColor} config='text-center font-semibold' />
+                    }
+                  </div>
+                )
+                : ''
+            }
+            {
+              content.info.description && content.info.description !== ''
+                ? (
+                  <div ref={descriptionRef} className={`${descriptionLoaded ? 'opacity-1' : 'opacity-0 translate-y-6'} transition-all duration-500`}>
+                    <P text={content.info.description} color={content.info.textColor} config='text-center' />
+                  </div>
+                )
+                : ''
+            }
+          </div>
           {
-            content.info.title && content.info.title !== ''
+            content.info.blocks?.length
               ? (
-                <div ref={titleRef} className={`${titleLoaded ? 'opacity-1' : 'opacity-0 translate-y-6'} transition-all duration-500`}>
-                  {
-                    index === 0
-                      ? <H1 text={content.info.title} color={content.info.textColor} config='text-center font-semibold' />
-                      : <H2 text={content.info.title} color={content.info.textColor} config='text-center font-semibold' />
-                  }
-                </div>
-              )
-              : ''
-          }
-          {
-            content.info.description && content.info.description !== ''
-              ? (
-                <div ref={descriptionRef} className={`${descriptionLoaded ? 'opacity-1' : 'opacity-0 translate-y-6'} transition-all duration-500`}>
-                  <P text={content.info.description} color={content.info.textColor} config='text-center' />
+                <div className='flex gap-6 justify-around flex-wrap'>
+                  {content.info.blocks?.map((block, i) => (
+                    <div
+                      key={i}
+                      ref={i === 0 ? block1Ref : i === 1 ? block2Ref : i === 2 ? block3Ref : i === 3 ? block4Ref : i === 4 ? block5Ref : i === 5 ? block6Ref : i === 6 ? block7Ref : i === 7 ? block8Ref : i === 8 ? block9Ref : i === 9 ? block10Ref : null}
+                      className={`${i === 0 ? block1Loaded ? 'opacity-1' : 'opacity-0 translate-y-6' : i === 1 ? block2Loaded ? 'opacity-1' : 'opacity-0 translate-y-6' : i === 2 ? block3Loaded ? 'opacity-1' : 'opacity-0 translate-y-6' : i === 3 ? block4Loaded ? 'opacity-1' : 'opacity-0 translate-y-6' : i === 4 ? block5Loaded ? 'opacity-1' : 'opacity-0 translate-y-6' : i === 5 ? block6Loaded ? 'opacity-1' : 'opacity-0 translate-y-6' : i === 6 ? block7Loaded ? 'opacity-1' : 'opacity-0 translate-y-6' : i === 7 ? block8Loaded ? 'opacity-1' : 'opacity-0 translate-y-6' : i === 8 ? block9Loaded ? 'opacity-1' : 'opacity-0 translate-y-6' : i === 9 ? block10Loaded ? 'opacity-1' : 'opacity-0 translate-y-6' : ''} transition-all duration-500 flex flex-col p-6 w-full max-w-96 min-h-48 lg:min-h-56`}
+                      style={{
+                        boxShadow: style.design === 'Sombreado' ? `0px 3px 20px 3px ${style.borderColor}10` : '',
+                        borderRadius: style.form === 'Redondeadas' ? `${style.borderBlock}px` : '',
+                        border: style.design === 'Borde' ? `1px solid ${style.borderColor}` : '',
+                        backgroundColor: content.info.image
+                      }}
+                    >
+                      <div className='flex flex-col gap-2 m-auto'>
+                        {
+                          block.image && block.image !== ''
+                            ? <Image className='h-52' src={block.image} alt={`Imagen del bloque de ${block.title}`} width={500} height={400} style={{ boxShadow: style.design === 'Sombreado' ? `0px 3px 20px 3px ${style.borderColor}10` : '', borderRadius: style.form === 'Redondeadas' ? `${style.borderBlock}px` : '', border: style.design === 'Borde' ? `1px solid ${style.borderColor}` : '' }} />
+                            : ''
+                        }
+                        {block.title && block.title !== "" ? (
+                          index === 0 ? (
+                              <H2 text={block.title} color={content.info.textColor} config="text-center font-semibold" />
+                          ) : (
+                              <H3 text={block.title} color={content.info.textColor} config="text-center font-semibold" />
+                          )
+                          ) : (
+                          ""
+                        )}
+                        <p className='text-center' style={{ color: content.info.textColor }}>{block.description}</p>
+                        {
+                          block.buttonLink && block.buttonLink !== '' && block.buttonText && block.buttonText !== ''
+                            ? block.buttonLink !== 'Doctoralia'
+                              ? block.buttonLink === 'Abrir Whatsapp'
+                                ? <button className={`m-auto w-fit flex text-center py-2 px-6 font-medium`} style={{ backgroundColor: style.primary, color: style.button, borderRadius: style.form === 'Redondeadas' ? `${style.borderButton}px` : '' }} onClick={() => window.open(`https://wa.me/+56${storeData?.phone}?text=${block.title}`)}>{block.buttonText}</button>
+                                : <LinkButton url={block.buttonLink} style={style} config='mx-auto'>{block.buttonText}</LinkButton>
+                              : (
+                                <Button action={() => {
+                                  setPopup({ ...popup, view: 'flex', opacity: 'opacity-0' })
+                                  setTimeout(() => {
+                                    setPopup({ ...popup, view: 'flex', opacity: 'opacity-1' })
+                                  }, 10);
+                                }} style={style} config='m-auto'>{block.buttonText}</Button>
+                              )
+                            : ''
+                        }
+                      </div>
+                    </div>
+                  ))}
                 </div>
               )
               : ''
           }
         </div>
-        {
-          content.info.blocks?.length
-            ? (
-              <div className='flex gap-6 justify-around flex-wrap'>
-                {content.info.blocks?.map((block, i) => (
-                  <div
-                    key={i}
-                    ref={i === 0 ? block1Ref : i === 1 ? block2Ref : i === 2 ? block3Ref : i === 3 ? block4Ref : i === 4 ? block5Ref : i === 5 ? block6Ref : i === 6 ? block7Ref : i === 7 ? block8Ref : i === 8 ? block9Ref : i === 9 ? block10Ref : null}
-                    className={`${i === 0 ? block1Loaded ? 'opacity-1' : 'opacity-0 translate-y-6' : i === 1 ? block2Loaded ? 'opacity-1' : 'opacity-0 translate-y-6' : i === 2 ? block3Loaded ? 'opacity-1' : 'opacity-0 translate-y-6' : i === 3 ? block4Loaded ? 'opacity-1' : 'opacity-0 translate-y-6' : i === 4 ? block5Loaded ? 'opacity-1' : 'opacity-0 translate-y-6' : i === 5 ? block6Loaded ? 'opacity-1' : 'opacity-0 translate-y-6' : i === 6 ? block7Loaded ? 'opacity-1' : 'opacity-0 translate-y-6' : i === 7 ? block8Loaded ? 'opacity-1' : 'opacity-0 translate-y-6' : i === 8 ? block9Loaded ? 'opacity-1' : 'opacity-0 translate-y-6' : i === 9 ? block10Loaded ? 'opacity-1' : 'opacity-0 translate-y-6' : ''} transition-all duration-500 flex flex-col p-6 w-full max-w-96 min-h-48 lg:min-h-56`}
-                    style={{
-                      boxShadow: style.design === 'Sombreado' ? `0px 3px 20px 3px ${style.borderColor}10` : '',
-                      borderRadius: style.form === 'Redondeadas' ? `${style.borderBlock}px` : '',
-                      border: style.design === 'Borde' ? `1px solid ${style.borderColor}` : '',
-                      backgroundColor: content.info.image
-                    }}
-                  >
-                    <div className='flex flex-col gap-2 m-auto'>
-                      {
-                        block.image && block.image !== ''
-                          ? <Image className='h-52' src={block.image} alt={`Imagen del bloque de ${block.title}`} width={500} height={400} style={{ boxShadow: style.design === 'Sombreado' ? `0px 3px 20px 3px ${style.borderColor}10` : '', borderRadius: style.form === 'Redondeadas' ? `${style.borderBlock}px` : '', border: style.design === 'Borde' ? `1px solid ${style.borderColor}` : '' }} />
-                          : ''
-                      }
-                      {block.title && block.title !== "" ? (
-                        index === 0 ? (
-                            <H2 text={block.title} color={content.info.textColor} config="text-center font-semibold" />
-                        ) : (
-                            <H3 text={block.title} color={content.info.textColor} config="text-center font-semibold" />
-                        )
-                        ) : (
-                        ""
-                      )}
-                      <p className='text-center' style={{ color: content.info.textColor }}>{block.description}</p>
-                      {
-                        block.buttonLink && block.buttonLink !== '' && block.buttonText && block.buttonText !== ''
-                          ? block.buttonLink === 'Abrir Whatsapp'
-                            ? <button className={`m-auto w-fit flex text-center py-2 px-6 font-medium`} style={{ backgroundColor: style.primary, color: style.button, borderRadius: style.form === 'Redondeadas' ? `${style.borderButton}px` : '' }} onClick={() => window.open(`https://wa.me/+56${storeData?.phone}?text=${block.title}`)}>{block.buttonText}</button>
-                            : <LinkButton url={block.buttonLink} style={style} config='mx-auto'>{block.buttonText}</LinkButton>
-                          : ''
-                      }
-                    </div>
-                  </div>
-                ))}
-              </div>
-            )
-            : ''
-        }
       </div>
-    </div>
+    </>
   );
 };
