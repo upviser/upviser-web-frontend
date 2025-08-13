@@ -15,7 +15,7 @@ const nextConfig = {
         pathname: '/**'
       }, {
         protocol: 'https',
-        hostname: 'marbella-clinica.b-cdn.net',
+        hostname: 'clinica-marbella.b-cdn.net',
         port: '',
         pathname: '/**'
       }, {
