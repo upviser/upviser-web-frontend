@@ -10,7 +10,7 @@ const nextConfig = {
         pathname: '/embed/**'
       }, {
         protocol: 'https',
-        hostname: 'dr-salud-casa.b-cdn.net',
+        hostname: 'dr-salud-en-casa.b-cdn.net',
         port: '',
         pathname: '/**'
       }, {
