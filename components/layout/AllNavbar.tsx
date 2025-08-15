@@ -21,6 +21,7 @@ interface Props {
     payment: IPayment
     services: IService[]
     style?: any
+    integrations: any
 }
 
 declare global {
@@ -31,7 +32,7 @@ declare global {
 
 declare const fbq: Function
 
-export const AllNavbar: React.FC<PropsWithChildren<Props>> = ({ children, design, storeData, funnels, politics, calls, forms, payment, services, style }) => {
+export const AllNavbar: React.FC<PropsWithChildren<Props>> = ({ children, design, storeData, funnels, politics, calls, forms, payment, services, style, integrations }) => {
 
   const [load, setLoad] = useState(false)
   const [popup, setPopup] = useState({ view: 'hidden', opacity: 'opacity-0', mouse: false })
@@ -67,7 +68,9 @@ export const AllNavbar: React.FC<PropsWithChildren<Props>> = ({ children, design
     const service = services.find(service => service.steps.some(step => step.slug !== '' ? `/${step.slug}` === pathname : false))
     const newEventId = new Date().getTime().toString()
     await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/page`, { page: pathname, funnel: funnel?._id, step: funnel?.steps.find(step => `/${step.slug}` === pathname), service: funnel?.service ? funnel?.service : service?._id, stepService: service?.steps.find(step => `/${step.slug}` === pathname)?._id, fbp: Cookies.get('_fbp'), fbc: Cookies.get('_fbc'), eventId: newEventId })
-    fbq('track', 'PageView', { content_name: funnel?.service, fbc: Cookies.get('_fbc'), fbp: Cookies.get('_fbp'), event_source_url: `${process.env.NEXT_PUBLIC_WEB_URL}${pathname}` }, { eventID: newEventId })
+    if (typeof fbq === 'function') {
+      fbq('track', 'PageView', { content_name: funnel?.service, fbc: Cookies.get('_fbc'), fbp: Cookies.get('_fbp'), event_source_url: `${process.env.NEXT_PUBLIC_WEB_URL}${pathname}` }, { eventID: newEventId })
+    }
     if (!load) {
       setLoad(true)
       await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/session`, { page: pathname, funnel: funnel?._id, step: funnel?.steps.find(step => `/${step.slug}` === pathname), service: funnel?.service ? funnel?.service : service?._id, stepService: service?.steps.find(step => `/${step.slug}` === pathname)?._id })
@@ -75,14 +78,18 @@ export const AllNavbar: React.FC<PropsWithChildren<Props>> = ({ children, design
   }
 
   useEffect(() => {
-    const interval = setInterval(() => {
-      if (typeof fbq === 'function') {
-        pageView()
-        clearInterval(interval)
-      }
-    }, 100)
-  
-    return () => clearInterval(interval)
+    if (integrations.apiPixelId && integrations.apiPixelId !== '') {
+      const interval = setInterval(() => {
+        if (typeof fbq === 'function') {
+          pageView()
+          clearInterval(interval)
+        }
+      }, 100)
+    
+      return () => clearInterval(interval)
+    } else {
+      pageView()
+    }
   }, [pathname])
 
   const getClientData = async () => {

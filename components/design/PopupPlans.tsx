@@ -25,6 +25,7 @@ interface Props {
     typePrice?: string
     contacts?: string
     forms?: IForm[]
+    integrations: any
 }
 
 declare global {
@@ -36,7 +37,7 @@ declare global {
 
 declare const fbq: Function
 
-export const PopupPlans: React.FC<Props> = ({ popup, setPopup, plan, services, payment, content, step, style, typePrice, contacts, forms }) => {
+export const PopupPlans: React.FC<Props> = ({ popup, setPopup, plan, services, payment, content, step, style, typePrice, contacts, forms, integrations }) => {
 
   const [client, setClient] = useState<IClient>({ email: '' })
   const [loading, setLoading] = useState(false)
@@ -101,14 +102,18 @@ export const PopupPlans: React.FC<Props> = ({ popup, setPopup, plan, services, p
   }
 
   useEffect(() => {
-    const interval = setInterval(() => {
-      if (typeof fbq === 'function' && plan?._id) {
-        viewCheckout()
-        clearInterval(interval)
-      }
-    }, 100)
-  
-    return () => clearInterval(interval)
+    if (integrations.apiPixelId && integrations.apiPixelId !== '') {
+      const interval = setInterval(() => {
+        if (typeof fbq === 'function' && plan?._id) {
+          viewCheckout()
+          clearInterval(interval)
+        }
+      }, 100)
+    
+      return () => clearInterval(interval)
+    } else {
+      viewCheckout()
+    }
   }, [plan])
   
     useEffect(() => {
@@ -155,7 +160,9 @@ export const PopupPlans: React.FC<Props> = ({ popup, setPopup, plan, services, p
                     const price = Number(initializationRef.current.amount)
                     const newEventId = new Date().getTime().toString()
                     await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/pay`, { firstName: clientRef.current.firstName, lastName: clientRef.current.lastName, email: clientRef.current.email, phone: clientRef.current.phone, service: service?._id, stepService: services?.find(service => service.steps.find(step => `/${step.slug}` === pathname))?.steps.find(step => `/${step.slug}` === pathname)?._id, typeService: service?.typeService, typePrice: service?.typePrice, plan: content.service?.plan, price: price, state: 'Pago realizado', fbp: Cookies.get('_fbp'), fbc: Cookies.get('_fbc'), pathname: pathname, eventId: newEventId, funnel: clientRef.current.funnels?.length ? clientRef.current.funnels[0].funnel : undefined, step: clientRef.current.funnels?.length ? clientRef.current.funnels[0].step : undefined })
-                    fbq('track', 'Purchase', { first_name: clientRef.current.firstName, last_name: clientRef.current.lastName, email: clientRef.current.email, phone: clientRef.current.phone && clientRef.current.phone !== '' ? `56${clientRef.current.phone}` : undefined, content_name: service?._id, currency: "clp", value: price, contents: { id: service?._id, item_price: price, quantity: 1 }, fbc: Cookies.get('_fbc'), fbp: Cookies.get('_fbp'), event_source_url: `${process.env.NEXT_PUBLIC_WEB_URL}${pathname}` }, { eventID: newEventId })
+                    if (typeof fbq === 'function') {
+                      fbq('track', 'Purchase', { first_name: clientRef.current.firstName, last_name: clientRef.current.lastName, email: clientRef.current.email, phone: clientRef.current.phone && clientRef.current.phone !== '' ? `56${clientRef.current.phone}` : undefined, content_name: service?._id, currency: "clp", value: price, contents: { id: service?._id, item_price: price, quantity: 1 }, fbc: Cookies.get('_fbc'), fbp: Cookies.get('_fbp'), event_source_url: `${process.env.NEXT_PUBLIC_WEB_URL}${pathname}` }, { eventID: newEventId })
+                    }
                     socket.emit('newNotification', { title: 'Nuevo pago recibido:', description: services?.find(servi => servi._id === content.service?.service)?.name, url: '/pagos', view: false })
                     await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/notification`, { title: 'Nuevo pago recibido:', description: services?.find(servi => servi._id === content.service?.service)?.name, url: '/pagos', view: false })
                     setLoading(false)
@@ -401,17 +408,19 @@ export const PopupPlans: React.FC<Props> = ({ popup, setPopup, plan, services, p
                               page: pathname,
                               eventId: newEventId
                             })
-                            fbq('track', 'Lead', {
-                              first_name: client.firstName,
-                              last_name: client.lastName,
-                              email: client.email,
-                              phone: client.phone && client.phone !== '' ? `56${client.phone}` : undefined,
-                              fbp: Cookies.get('_fbp'),
-                              fbc: Cookies.get('_fbc'),
-                              content_name: client.services?.length && client.services[0].service !== '' ? client.services[0].service : undefined,
-                              contents: { id: client.services?.length && client.services[0].service !== '' ? client.services[0].service : undefined, quantity: 1 },
-                              event_source_url: `${process.env.NEXT_PUBLIC_WEB_URL}${pathname}`
-                            }, { eventID: newEventId })
+                            if (typeof fbq === 'function') {
+                              fbq('track', 'Lead', {
+                                first_name: client.firstName,
+                                last_name: client.lastName,
+                                email: client.email,
+                                phone: client.phone && client.phone !== '' ? `56${client.phone}` : undefined,
+                                fbp: Cookies.get('_fbp'),
+                                fbc: Cookies.get('_fbc'),
+                                content_name: client.services?.length && client.services[0].service !== '' ? client.services[0].service : undefined,
+                                contents: { id: client.services?.length && client.services[0].service !== '' ? client.services[0].service : undefined, quantity: 1 },
+                                event_source_url: `${process.env.NEXT_PUBLIC_WEB_URL}${pathname}`
+                              }, { eventID: newEventId })
+                            }
                             setFormCompleted(true)
                             setLoading(false)
                           }
