@@ -78,7 +78,7 @@ export const AllNavbar: React.FC<PropsWithChildren<Props>> = ({ children, design
   }
 
   useEffect(() => {
-    if (integrations.apiPixelId && integrations.apiPixelId !== '') {
+    if (integrations?.apiPixelId && integrations.apiPixelId !== '') {
       const interval = setInterval(() => {
         if (typeof fbq === 'function') {
           pageView()
